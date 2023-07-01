@@ -24,14 +24,9 @@ export class AppComponent implements OnDestroy {
         levels: [1, 2, 3],
       }),
       Paragraph.configure({
-        HTMLAttributes: {
-          class: 'p-style',
-        }
       }),
       Blockquote.configure({
-        HTMLAttributes: {
-          class: 'blockquote-style',
-        },
+
       }),
     ],
     content: '<P>I think where I am not, therefore I am where I do not think.</P>',
