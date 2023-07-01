@@ -31,6 +31,10 @@ export class AppComponent implements OnDestroy {
       CodeBlockLowlight.configure({
         lowlight,
         languageClassPrefix: 'language-',
+
+        HTMLAttributes: {
+          class: 'code-block',
+        }
       }),
     ],
     content:
