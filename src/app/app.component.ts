@@ -3,16 +3,12 @@ import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
 import Blockquote from '@tiptap/extension-blockquote';
+import Paragraph from '@tiptap/extension-paragraph';
 import {FormArray, FormGroup, NonNullableFormBuilder} from "@angular/forms";
 import {CourseArticleConfig} from "./custom-styles.model";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {CustomStylesDirective} from "./custom-styles.directive";
 
-const CustomHeading = Heading.extend({
-  addClasses() {
-    return [];
-  },
-});
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,8 +20,19 @@ export class AppComponent implements OnDestroy {
   editor = new Editor({
     extensions: [
       StarterKit,
-      CustomHeading.configure({ levels: [1, 2, 3] }),
-      Blockquote.configure({ HTMLAttributes: { class: 'custom-blockquote' } }),
+      Heading.configure({
+        levels: [1, 2, 3],
+      }),
+      Paragraph.configure({
+        HTMLAttributes: {
+          class: 'p-style',
+        }
+      }),
+      Blockquote.configure({
+        HTMLAttributes: {
+          class: 'blockquote-style',
+        },
+      }),
     ],
     content: '<P>I think where I am not, therefore I am where I do not think.</P>',
   });
@@ -186,7 +193,6 @@ export class AppComponent implements OnDestroy {
         fontSize: '4rem',
         textAlign: 'left',
         fontStyle: 'normal',
-        lineHeight: '1.5',
         letterSpacing: '0',
       }),
       blockquote: this.fb.group({
