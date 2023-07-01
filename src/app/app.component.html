@@ -16,13 +16,17 @@
         <button #blockquoteButton>Quote</button>
       </div>
     </div>
+    <div style="margin-top: 25px;" nz-row class="button-group" nzGutter="16">
+      <div nz-col nzSpan="6">
+        <button #codeButton>Code</button>
+      </div>
+    </div>
     <div nz-row style="margin-top: 20px;">
       <div nz-col nzSpan="24">
         <div class="editor">
           <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"
             [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
-
         </div>
       </div>
     </div>
@@ -491,3 +495,4 @@
     </form>
   </div>
 </div>
+

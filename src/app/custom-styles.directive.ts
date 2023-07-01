@@ -90,10 +90,6 @@ export class CustomStylesDirective implements OnChanges {
           const styleContent = `${className} { ${css} }`;
           style!.textContent += styleContent;
         } else {
-          console.warn(
-            'Could not select the element: ' + tag,
-            this.hostElement
-          );
         }
       });
 
