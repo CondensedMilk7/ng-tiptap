@@ -5,13 +5,23 @@ import Heading from '@tiptap/extension-heading';
 import Blockquote from '@tiptap/extension-blockquote';
 import Paragraph from '@tiptap/extension-paragraph';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import javascript from 'highlight.js/lib/languages/javascript';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { CourseArticleConfig } from './custom-styles.model';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CustomStylesDirective } from './custom-styles.directive';
 import { lowlight } from 'lowlight/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import html from 'highlight.js/lib/languages/xml';
+import css from 'highlight.js/lib/languages/css';
+
 lowlight.registerLanguage('javascript', javascript);
+lowlight.registerLanguage('html', html);
+lowlight.registerLanguage('css', css)
+
+import hljs from 'highlight.js';
+import {NzModalService} from "ng-zorro-antd/modal";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -31,11 +41,17 @@ export class AppComponent implements OnDestroy {
       CodeBlockLowlight.configure({
         lowlight,
         languageClassPrefix: 'language-',
-
         HTMLAttributes: {
           class: 'code-block',
         },
       }),
+      Image.configure({
+        inline: true,
+      }),
+      Link.configure({
+        openOnClick: true,
+      }),
+
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
@@ -47,6 +63,8 @@ export class AppComponent implements OnDestroy {
   @ViewChild('h3Button') h3Button!: ElementRef;
   @ViewChild('blockquoteButton') blockquoteButton!: ElementRef;
   @ViewChild('codeButton') codeButton!: ElementRef;
+  @ViewChild('imageButton') imageButton!: ElementRef;
+  @ViewChild('LinkButton') LinkButton!: ElementRef;
 
   //Imp:  Define Buttons Logic Here
   ngAfterViewInit(): void {
@@ -69,12 +87,29 @@ export class AppComponent implements OnDestroy {
     this.codeButton.nativeElement.addEventListener('click', () => {
       this.editor.chain().focus().toggleCodeBlock().run();
     });
+
+    this.imageButton.nativeElement.addEventListener('click', () => {
+      this.editor.chain().focus().setImage({src: 'https://picsum.photos/200/300'}).run();
+    });
+
+    this.LinkButton.nativeElement.addEventListener('click', () => {
+      const modal = this.modalService.create({
+        nzContent: linkmodalComponent,
+        nzClosable: false
+      });
+
+      modal.afterClose.subscribe(url => {
+        if (url) {
+          this.editor.chain().focus().toggleLink({ href: url }).run();
+        }
+      });
+    });
   }
 
   // Unsorted Code
 
   quillContent$: Observable<string | null> = of(null);
-  quillContent = '';
+  editorContent = '';
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css';
 
@@ -157,7 +192,7 @@ export class AppComponent implements OnDestroy {
   //? Spacing && Line Height Options
   lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
   letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(private fb: NonNullableFormBuilder,    private modalService: NzModalService,) {}
   // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
@@ -225,9 +260,9 @@ export class AppComponent implements OnDestroy {
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
-      '.test_box': this.fb.group({
-        backgroundColor: 'black',
-      }),
+      // '.test_box': this.fb.group({
+      //   backgroundColor: 'black',
+      // }),
       markColor: this.fb.group({
         backgroundColor: ['yellow'],
       }),
@@ -256,19 +291,20 @@ export class AppComponent implements OnDestroy {
 
       this.quillStyle = this.customStyles.getRawValue();
     });
+
+    // Get The Value From Local Storage
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
   }
 
   onContentUpdated(newContent: string) {
-    // Todo: Handle Applying Custom Styles on Typing (Any Action) In Quill Editor
-    // ?  Updating Values of the QuillStyle When Content is Updated (FIXED)
     this.customStyles$ = new BehaviorSubject<CourseArticleConfig>(
       (this.quillStyle = this.customStyles.getRawValue())
     );
-    this.quillContent = newContent;
-    // ? Setting And Getting At tHe Same Time
-    localStorage.setItem('editor_content', this.quillContent);
+
+    this.editorContent = newContent;
+    localStorage.setItem('editor_content', this.editorContent);
     this.quillContent$ = of(localStorage.getItem('editor_content'));
-    console.log(this.quillContent);
+    console.log(this.editorContent);
   }
 
   // Modal Code
@@ -286,90 +322,8 @@ export class AppComponent implements OnDestroy {
     this.isVisible = false;
   }
 
-  onFileSelected(event: any) {
-    const files: File[] = event.target.files;
-
-    if (files && files.length) {
-      for (let file of files) {
-        this.uploadFile(file);
-      }
-    }
-  }
-
-  uploadFile(file: File) {
-    const reader = new FileReader();
-
-    // Extract the font name without the extension
-    const fontName = file.name.split('.').slice(0, -1).join('.');
-
-    reader.onload = (event: any) => {
-      // Create a new blob object
-      const blob = new Blob([event.target.result], { type: file.type });
-
-      // Create a URL for the blob object
-      const blobURL = URL.createObjectURL(blob);
-
-      //? Add the @font-face rule to the stylesheet
-      //? Creates Separate StyleSheet For FontFaces
-      //! Not The Best Solution
-      const style = document.createElement('style');
-      style.textContent = `
-        @font-face {
-          font-family: "${fontName}";
-          src: url("${blobURL}");
-        }
-      `;
-      document.head.appendChild(style);
-
-      // Add the font to the form control
-      this.addFontFamily(fontName);
-    };
-
-    reader.readAsArrayBuffer(file);
-  }
-
-  addFontFamily(fontName: string) {
-    if (!this.addedFontFamilies.includes(fontName)) {
-      this.addedFontFamilies.push(fontName);
-      this.defaultFontFamilies.push(fontName);
-      this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
-
-      this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
-    }
-  }
-
-  removeFontFamily(fontName: string) {
-    const fontIndex = this.addedFontFamilies.indexOf(fontName);
-    if (fontIndex !== -1) {
-      this.addedFontFamilies.splice(fontIndex, 1);
-
-      const fontControl = this.customStyles.controls.fontFamilies as FormArray;
-      const fontIndexControl = fontControl.controls.findIndex(
-        (control) => control.value === fontName
-      );
-      if (fontIndexControl !== -1) {
-        fontControl.removeAt(fontIndexControl);
-      }
-
-      //! Remove the font styles from the document's head (Not Best Solution For angular)
-      const styleElements = Array.from(
-        document.head.querySelectorAll(`style[data-font-name="${fontName}"]`)
-      );
-      styleElements.forEach((element) => {
-        element.remove();
-      });
-
-      // Update the default font families if the font is not already in the array
-      if (!this.defaultFontFamilies.includes(fontName)) {
-        this.defaultFontFamilies.push(fontName);
-      }
-    }
-  }
-
   // Imp: Destroys The Editors Instance
   ngOnDestroy(): void {
     this.editor.destroy();
   }
-
-  protected readonly location = location;
 }

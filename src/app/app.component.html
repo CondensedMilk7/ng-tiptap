@@ -20,6 +20,12 @@
       <div nz-col nzSpan="6">
         <button #codeButton>Code</button>
       </div>
+      <div nz-col nzSpan="6">
+        <button #imageButton>Image</button>
+      </div>
+      <div nz-col nzSpan="6">
+        <button #LinkButton>A (Link)</button>
+      </div>
     </div>
     <div nz-row style="margin-top: 20px;">
       <div nz-col nzSpan="24">
@@ -27,13 +33,6 @@
           <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"
             [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
-<!--          <div class="container" appCustomStyles>-->
-<!--            <h1>Lorem Ipsum</h1>-->
-<!--            <h2>Lorem Ipsum Dolor Amet</h2>-->
-<!--            <h3>Lorem ipsum dolor sit amet, consectetur.</h3>-->
-<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi enim illum sint?</p>-->
-<!--            <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi enim illum sint?</blockquote>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
@@ -48,26 +47,8 @@
       <!-- Todo: Implementation Of Backend Service Adding Font -->
       <nz-collapse>
         <nz-collapse-panel nzHeader="Fonts">
-          <div class="config-box">
-            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".ttf,.otf,.woff,.woff2" multiple
-              style="display: none;">
-            <button nz-button (click)="fileInput.click()">Add Fonts</button>
-
-            <div *ngFor="let font of addedFontFamilies" class="font-item">
-              <nz-row nzGutter="16">
-                <nz-col nzSpan="12">
-                  <span class="bold">Font-Family:</span> {{ font }}
-                </nz-col>
-                <nz-col nzSpan="12" class="text-right">
-                  <button nz-button nzType="default" nzSize="small" (click)="removeFontFamily(font)">
-                    <i nz-icon nzType="delete"></i> Remove
-                  </button>
-                </nz-col>
-              </nz-row>
-            </div>
 
 
-          </div>
         </nz-collapse-panel>
       </nz-collapse>
 
@@ -512,7 +493,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
 
   <div *nzModalContent>
-    <div class="output" [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
+    <div class="output"  [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
 
     </div>
 
@@ -537,4 +518,7 @@
 
   </div>
 </nz-modal>
+
+<!-- Href Modal-->
+<!-- Todo: Should Be In Separate Component-->
 
