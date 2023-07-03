@@ -34,7 +34,7 @@ export class AppComponent implements OnDestroy {
 
         HTMLAttributes: {
           class: 'code-block',
-        }
+        },
       }),
     ],
     content:
