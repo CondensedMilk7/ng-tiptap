@@ -1,5 +1,3 @@
-
-
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
@@ -18,12 +16,16 @@
         <button #blockquoteButton>Quote</button>
       </div>
     </div>
+    <div style="margin-top: 25px;" nz-row class="button-group" nzGutter="16">
+      <div nz-col nzSpan="6">
+        <button #codeButton>Code</button>
+      </div>
+    </div>
     <div nz-row style="margin-top: 20px;">
       <div nz-col nzSpan="24">
         <div class="editor">
-          <tiptap-editor appCustomStyles [config]="customStyles$ | async"
-                         [editor]="editor" [ngModel]="quillContent$ | async"
-                         (ngModelChange)="onContentUpdated($event)">
+          <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"
+            [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
 <!--          <div class="container" appCustomStyles>-->
 <!--            <h1>Lorem Ipsum</h1>-->
@@ -48,7 +50,7 @@
         <nz-collapse-panel nzHeader="Fonts">
           <div class="config-box">
             <input type="file" #fileInput (change)="onFileSelected($event)" accept=".ttf,.otf,.woff,.woff2" multiple
-                   style="display: none;">
+              style="display: none;">
             <button nz-button (click)="fileInput.click()">Add Fonts</button>
 
             <div *ngFor="let font of addedFontFamilies" class="font-item">
@@ -100,7 +102,7 @@
               <div class="config-item">
                 <label for="h1-font-size">Font Size </label>
                 <nz-select formGroupName="h1" id="h1-font-size" formControlName="fontSize"
-                           nzPlaceHolder="Select font size">
+                  nzPlaceHolder="Select font size">
                   <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
                 </nz-select>
               </div>
@@ -109,7 +111,7 @@
                 <label for="h1-textAlign">Text Align </label>
                 <div class="text-align-buttons">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                          (click)="customStyles.get('elements.h1.textAlign')?.setValue(option.value)">
+                    (click)="customStyles.get('elements.h1.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -165,7 +167,7 @@
                 <label for="h2-textAlign">Text Align </label>
                 <div id="h2-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                          (click)="customStyles.get('elements.h2.textAlign')?.setValue(option.value)">
+                    (click)="customStyles.get('elements.h2.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -219,7 +221,7 @@
                 <label for="h3-textAlign">Text Align </label>
                 <div id="h3-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                          (click)="customStyles.get('elements.h3.textAlign')?.setValue(option.value)">
+                    (click)="customStyles.get('elements.h3.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -249,7 +251,7 @@
               <div class="config-item">
                 <label for="p-font-family">Font Family </label>
                 <nz-select id="p-font-family" formControlName="fontFamily" nzAllowClear
-                           nzPlaceHolder="Choose font family">
+                  nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -267,7 +269,7 @@
                 <label for="p-lineHeight">Line Height</label>
                 <nz-select id="p-lineHeight" formControlName="lineHeight" nzAllowClear nzPlaceHolder="Line Height">
                   <nz-option *ngFor="let height of lineHeightOptions" [nzValue]="height + 'px'"
-                             [nzLabel]="height + 'px'">
+                    [nzLabel]="height + 'px'">
                   </nz-option>
                 </nz-select>
               </div>
@@ -276,9 +278,9 @@
               <div class="config-item">
                 <label for="p-letterSpacing">Letter Spacing</label>
                 <nz-select id="p-letterSpacing" formControlName="letterSpacing" nzAllowClear
-                           nzPlaceHolder="Letter Spacing">
+                  nzPlaceHolder="Letter Spacing">
                   <nz-option *ngFor="let spacing of letterSpacingOptions" [nzValue]="spacing + 'px'"
-                             [nzLabel]="spacing + 'px'">
+                    [nzLabel]="spacing + 'px'">
 
                   </nz-option>
                 </nz-select>
@@ -297,7 +299,7 @@
                 <label for="p-textAlign">Text Align </label>
                 <div id="p-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                          (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
+                    (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -323,7 +325,7 @@
               <div class="config-item">
                 <label for="a-font-family">Font Family </label>
                 <nz-select id="a-font-family" formControlName="fontFamily" nzAllowClear
-                           nzPlaceHolder="Choose font family">
+                  nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -380,7 +382,7 @@
               <div class="config-item">
                 <label for="bq-font-family">Font Family</label>
                 <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
-                           nzPlaceHolder="Choose font family">
+                  nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -409,7 +411,7 @@
                 <label for="p-textAlign">Text Align </label>
                 <div id="p-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                          (click)="customStyles.get('elements.blockquote.textAlign')?.setValue(option.value)">
+                    (click)="customStyles.get('elements.blockquote.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -504,6 +506,7 @@
       </div>
     </form>
   </div>
+<<<<<<< HEAD
 </div>
 
 
@@ -536,3 +539,6 @@
   </div>
 </nz-modal>
 
+=======
+</div>
+>>>>>>> 7ee1fcc9936f33fb0531a6d7c99a2dbfaf651f7d

@@ -29,11 +29,11 @@ export class CustomStylesDirective implements OnChanges {
     const savedStyles = localStorage.getItem('custom_styles');
 
     setTimeout(() => {
-      if(savedStyles) {
+      if (savedStyles) {
         this.config = JSON.parse(savedStyles);
         this.setStyles(this.config);
       }
-    }, 500) // Still Same Issue Here;
+    }, 500); // Still Same Issue Here;
   }
 
   ngAfterViewInit(): void {
@@ -46,7 +46,6 @@ export class CustomStylesDirective implements OnChanges {
       this.setStyles(config);
     }, 200);
   }
-
 
   setStyles(config: CourseArticleConfig | null) {
     if (config) {
@@ -66,17 +65,14 @@ export class CustomStylesDirective implements OnChanges {
       Object.entries(config.elements).forEach(([tag, styles]) => {
         const elements = this.hostElement.nativeElement.querySelectorAll(tag);
         if (elements.length) {
-          const className = `${tag}-style`;
-          elements.forEach((el: any) => {
-            el.classList.add(className);
-          });
+          // This Line Fixed Most Of Our Issues :DDDD
+          const className = `.ProseMirror ${tag}`;
 
           let css = '';
           Object.entries(styles).forEach(([prop, value]) => {
             if (prop === 'border') {
               const borderStyles = styles.border;
               if (borderStyles) {
-                // ! Custom Behavior for border
                 css += `
                   border-style: ${borderStyles.style || 'none'};
                   border-color: ${borderStyles.color || 'initial'} !important ;
@@ -91,17 +87,13 @@ export class CustomStylesDirective implements OnChanges {
             }
           });
 
-          const styleContent = `.${className} { ${css} }`;
+          const styleContent = `${className} { ${css} }`;
           style!.textContent += styleContent;
         } else {
-          console.warn(
-            'Could not select the element: ' + tag,
-            this.hostElement
-          );
         }
       });
 
-      console.log(style.textContent); // Log the generated stylesheet
+      console.log(style.textContent);
     }
   }
 

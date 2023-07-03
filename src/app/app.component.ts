@@ -1,14 +1,17 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
 import Blockquote from '@tiptap/extension-blockquote';
 import Paragraph from '@tiptap/extension-paragraph';
-import {FormArray, FormGroup, NonNullableFormBuilder} from "@angular/forms";
-import {CourseArticleConfig} from "./custom-styles.model";
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {CustomStylesDirective} from "./custom-styles.directive";
-
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import javascript from 'highlight.js/lib/languages/javascript';
+import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { CourseArticleConfig } from './custom-styles.model';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CustomStylesDirective } from './custom-styles.directive';
+import { lowlight } from 'lowlight/lib/core';
+lowlight.registerLanguage('javascript', javascript);
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,18 +26,19 @@ export class AppComponent implements OnDestroy {
       Heading.configure({
         levels: [1, 2, 3],
       }),
-      Paragraph.configure({
+      Paragraph.configure({}),
+      Blockquote.configure({}),
+      CodeBlockLowlight.configure({
+        lowlight,
+        languageClassPrefix: 'language-',
+
         HTMLAttributes: {
-          class: 'p-style',
+          class: 'code-block',
         }
       }),
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: 'blockquote-style',
-        },
-      }),
     ],
-    content: '<P>I think where I am not, therefore I am where I do not think.</P>',
+    content:
+      '<P>I think where I am not, therefore I am where I do not think.</P>',
   });
 
   // Imp: Reference to the buttons
@@ -42,7 +46,7 @@ export class AppComponent implements OnDestroy {
   @ViewChild('h2Button') h2Button!: ElementRef;
   @ViewChild('h3Button') h3Button!: ElementRef;
   @ViewChild('blockquoteButton') blockquoteButton!: ElementRef;
-
+  @ViewChild('codeButton') codeButton!: ElementRef;
 
   //Imp:  Define Buttons Logic Here
   ngAfterViewInit(): void {
@@ -62,9 +66,10 @@ export class AppComponent implements OnDestroy {
       this.editor.chain().focus().toggleBlockquote().run();
     });
 
+    this.codeButton.nativeElement.addEventListener('click', () => {
+      this.editor.chain().focus().toggleCodeBlock().run();
+    });
   }
-
-
 
   // Unsorted Code
 
@@ -152,9 +157,7 @@ export class AppComponent implements OnDestroy {
   //? Spacing && Line Height Options
   lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
   letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
-  constructor(
-    private fb: NonNullableFormBuilder,
-  ) {}
+  constructor(private fb: NonNullableFormBuilder) {}
   // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
@@ -235,17 +238,7 @@ export class AppComponent implements OnDestroy {
     (this.quillStyle = this.customStyles.getRawValue())
   );
 
-
-
   ngOnInit() {
-    this.quillContent$ = of(localStorage.getItem('editor_content'));
-
-    this.customStyles.valueChanges.subscribe((value) => {
-      this.customStyles$.next(this.customStyles.getRawValue());
-
-      this.quillStyle = this.customStyles.getRawValue();
-    });
-
     // load saved custom styles from local storage if it exists, or use initial value otherwise
     const savedCustomStyles = localStorage.getItem('custom_styles');
     if (savedCustomStyles) {
@@ -265,9 +258,6 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-
-
-
   onContentUpdated(newContent: string) {
     // Todo: Handle Applying Custom Styles on Typing (Any Action) In Quill Editor
     // ?  Updating Values of the QuillStyle When Content is Updated (FIXED)
@@ -279,7 +269,6 @@ export class AppComponent implements OnDestroy {
     localStorage.setItem('editor_content', this.quillContent);
     this.quillContent$ = of(localStorage.getItem('editor_content'));
     console.log(this.quillContent);
-
   }
 
   // Modal Code
@@ -376,7 +365,6 @@ export class AppComponent implements OnDestroy {
       }
     }
   }
-
 
   // Imp: Destroys The Editors Instance
   ngOnDestroy(): void {
