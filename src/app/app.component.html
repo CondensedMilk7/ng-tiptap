@@ -25,15 +25,23 @@
                          [editor]="editor" [ngModel]="quillContent$ | async"
                          (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
-
-
-
+<!--          <div class="container" appCustomStyles>-->
+<!--            <h1>Lorem Ipsum</h1>-->
+<!--            <h2>Lorem Ipsum Dolor Amet</h2>-->
+<!--            <h3>Lorem ipsum dolor sit amet, consectetur.</h3>-->
+<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi enim illum sint?</p>-->
+<!--            <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi enim illum sint?</blockquote>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
   </div>
   <div class="style-editor">
     <h2>Style Editor</h2>
+    <button nz-button nzType="primary" (click)="showModal()">
+      <span>Show Result</span>
+    </button>
+
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <!-- Todo: Implementation Of Backend Service Adding Font -->
       <nz-collapse>
@@ -491,6 +499,7 @@
           </nz-collapse-panel>
         </nz-collapse>
 
+<!--        <button  (click)="location!.reload()">Apply Styles</button>-->
 
       </div>
     </form>
@@ -498,4 +507,32 @@
 </div>
 
 
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
+
+  <div *nzModalContent>
+    <div class="output" [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
+
+    </div>
+
+
+
+    <div class="container">
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu">View As {{viewMode}}</button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="viewMode = 'css'">CSS</li>
+          <li nz-menu-item (click)="viewMode = 'json'">JSON</li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <div>
+        <pre class="code pre-style" *ngIf="viewMode === 'css'"
+             [innerHtml]="quillStyle"></pre>
+        <pre class="code pre-style"
+             *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
+      </div>
+    </div>
+
+  </div>
+</nz-modal>
 

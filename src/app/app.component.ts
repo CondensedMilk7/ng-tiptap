@@ -111,6 +111,13 @@ export class AppComponent implements OnDestroy {
     { label: 'Justify', value: 'justify' },
   ];
 
+  // ? Font Style Options
+  fontStyleOptions = [
+    { label: 'Normal', value: 'normal' },
+    { label: 'Italic', value: 'italic' },
+    { label: 'Oblique', value: 'oblique' },
+    // ? Add Bold
+  ];
   // ? Return Icon Class
   getIconClass(value: string) {
     switch (value) {
@@ -126,15 +133,6 @@ export class AppComponent implements OnDestroy {
         return '';
     }
   }
-
-  // ? Font Style Options
-  fontStyleOptions = [
-    { label: 'Normal', value: 'normal' },
-    { label: 'Italic', value: 'italic' },
-    { label: 'Oblique', value: 'oblique' },
-    // ? Add Bold
-  ];
-
   //? Fonf Family Options
   defaultFontFamilies: string[] = [
     'Arial',
@@ -163,7 +161,6 @@ export class AppComponent implements OnDestroy {
     globalFontFamily: 'Helvetica',
     elements: this.fb.group({
       h1: this.fb.group({
-        // ! Appp APP
         color: 'red',
         fontFamily: 'Helvetica',
         fontSize: '2rem',
@@ -241,6 +238,13 @@ export class AppComponent implements OnDestroy {
 
 
   ngOnInit() {
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
+
+    this.customStyles.valueChanges.subscribe((value) => {
+      this.customStyles$.next(this.customStyles.getRawValue());
+
+      this.quillStyle = this.customStyles.getRawValue();
+    });
 
     // load saved custom styles from local storage if it exists, or use initial value otherwise
     const savedCustomStyles = localStorage.getItem('custom_styles');
@@ -259,8 +263,6 @@ export class AppComponent implements OnDestroy {
 
       this.quillStyle = this.customStyles.getRawValue();
     });
-
-    this.quillContent$ = of(localStorage.getItem('editor_content'));
   }
 
 
@@ -380,4 +382,6 @@ export class AppComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.editor.destroy();
   }
+
+  protected readonly location = location;
 }
