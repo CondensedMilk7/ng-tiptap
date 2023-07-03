@@ -21,6 +21,8 @@ lowlight.registerLanguage('css', css)
 
 import hljs from 'highlight.js';
 import {NzModalService} from "ng-zorro-antd/modal";
+import {LinkmodalComponent} from "./linkmodal/linkmodal.component";
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +52,10 @@ export class AppComponent implements OnDestroy {
       }),
       Link.configure({
         openOnClick: true,
+
+          HTMLAttributes: {
+            target: '_blank',
+          }
       }),
 
     ],
@@ -94,16 +100,22 @@ export class AppComponent implements OnDestroy {
 
     this.LinkButton.nativeElement.addEventListener('click', () => {
       const modal = this.modalService.create({
-        nzContent: linkmodalComponent,
-        nzClosable: false
+        nzContent: LinkmodalComponent,
+        nzClosable: false,
+        nzOnOk: (componentInstance) => componentInstance.submit(),
       });
 
       modal.afterClose.subscribe(url => {
         if (url) {
-          this.editor.chain().focus().toggleLink({ href: url }).run();
+          if (url.startsWith('http://') || url.startsWith('https://')) {
+            this.editor.chain().focus().toggleLink({ href: url }).run();
+          } else {
+            this.message.create('error', `Invalid URL: ${url}. Please include the protocol (http:// or https://)`);
+          }
         }
       });
     });
+
   }
 
   // Unsorted Code
@@ -192,7 +204,9 @@ export class AppComponent implements OnDestroy {
   //? Spacing && Line Height Options
   lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
   letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
-  constructor(private fb: NonNullableFormBuilder,    private modalService: NzModalService,) {}
+  constructor(private fb: NonNullableFormBuilder,
+              private modalService: NzModalService,
+              public message: NzMessageService) {}
   // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),

@@ -493,7 +493,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
 
   <div *nzModalContent>
-    <div class="output"  [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
+    <div class="ProseMirror"  [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
 
     </div>
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {NzModalRef} from "ng-zorro-antd/modal";
 
 @Component({
   selector: 'app-linkmodal',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./linkmodal.component.less']
 })
 export class LinkmodalComponent {
+  url = ''; // property to bind to input
+
+  constructor(private modalRef: NzModalRef) {}
+
+  cancel(): void {
+    this.modalRef.triggerCancel();
+  }
+
+  submit(): void {
+    this.modalRef.close(this.url); // when modal is closed, return url
+  }
+
 
 }
