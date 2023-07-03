@@ -23,17 +23,13 @@ export class CustomStylesDirective implements OnChanges {
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
   ) {}
-
   ngOnInit(): void {
     // Getting the saved styles from localstorage
     const savedStyles = localStorage.getItem('custom_styles');
-
-    setTimeout(() => {
-      if (savedStyles) {
-        this.config = JSON.parse(savedStyles);
-        this.setStyles(this.config);
-      }
-    }, 500); // Still Same Issue Here;
+    if(savedStyles) {
+      this.config = JSON.parse(savedStyles);
+      this.setStyles(this.config);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -42,9 +38,7 @@ export class CustomStylesDirective implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
-    setTimeout(() => {
-      this.setStyles(config);
-    }, 200);
+    this.setStyles(config);
   }
 
   setStyles(config: CourseArticleConfig | null) {

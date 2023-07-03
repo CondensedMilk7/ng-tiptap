@@ -128,9 +128,6 @@ export class AppComponent implements OnDestroy {
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
   quillInstance: any;
-  selectedColor: string = 'yellow'; // Default color
-
-  // Todo: Update This Everytem Custom Style Is Updated
 
   quillModules = {};
 
