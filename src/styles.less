@@ -1,1 +1,44 @@
+
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+// Override less variables to here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+// Color pallete
+@import '~highlight.js/styles/atom-one-dark.css';  // replace 'github' with your chosen style
+
+// @primary-color: #1890ff;
 /* You can add global styles to this file, and also import other style files */
+.custom-blockquote{
+  border-left: 5px solid #eee;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  color: #424242;
+  font-size: 0.9em;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: justify;
+  background: #f9f9f9;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
+  max-width: 300px
+ ;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+
+.code-block{
+  width: 100%;
+  height: 50px auto;
+  background-color: #272822;
+  border-radius: 12px;
+  padding: 12px;
+}
