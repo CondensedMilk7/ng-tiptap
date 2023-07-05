@@ -296,7 +296,7 @@ export class AppComponent implements OnDestroy {
         margin: '0px',
         borderRadius: '0px',
         border: this.fb.group({
-          color: 'orange',
+          color: 'red',
           style: 'solid',
           radius: '0px',   // change this to borderRadius
           width: '25px',
