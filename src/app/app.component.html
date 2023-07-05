@@ -535,9 +535,9 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
 
   <div *nzModalContent>
-    <div class="ProseMirror"  [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
+<!--    <div class="ProseMirror"  [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">-->
 
-    </div>
+<!--    </div>-->
 
 
 
@@ -552,7 +552,7 @@
 
       <div>
         <pre class="code pre-style" *ngIf="viewMode === 'css'"
-             [innerHtml]="quillStyle"></pre>
+             >{{quillStyle | json}}</pre>
         <pre class="code pre-style"
              *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
       </div>
