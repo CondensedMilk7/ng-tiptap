@@ -22,11 +22,13 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { LinkmodalComponent } from './linkmodal/linkmodal.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, CustomStylesDirective],
+  declarations: [AppComponent, CustomStylesDirective, LinkmodalComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -45,6 +47,7 @@ registerLocaleData(en);
     NzSelectModule,
     NzDropDownModule,
     ReactiveFormsModule,
+    NzMessageModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

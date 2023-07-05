@@ -50,7 +50,7 @@ export interface BorderStyles {
   right: string;
   bottom: string;
   left: string;
-  
+
 }
 
 export type ElementName =
@@ -62,4 +62,4 @@ export type ElementName =
   | 'mark'
   | 'blockquote'
   | '.test_box'
-  | 'img';
+  | 'img'
