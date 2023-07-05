@@ -285,7 +285,7 @@ export class AppComponent implements OnDestroy {
         fontStyle: 'normal',
       }),
       '.ProseMirror': this.fb.group({
-        backgroundColor: 'black',
+        backgroundColor: 'white',
       }),
       mark: this.fb.group({
         backgroundColor: 'yellow',
@@ -335,6 +335,8 @@ export class AppComponent implements OnDestroy {
 
     // Get The Value From Local Storage
     this.quillContent$ = of(localStorage.getItem('editor_content'));
+
+    // Define FirstTime Enter
   }
 
   onContentUpdated(newContent: string) {
@@ -367,4 +369,8 @@ export class AppComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.editor.destroy();
   }
+
+
+  // Check For First Time Enter
+
 }

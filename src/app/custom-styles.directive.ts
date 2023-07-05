@@ -27,13 +27,17 @@ export class CustomStylesDirective implements OnChanges {
     // Getting the saved styles from localstorage
     const savedStyles = localStorage.getItem('custom_styles');
     if(savedStyles) {
-      this.config = JSON.parse(savedStyles);
-      this.setStyles(this.config);
+      setTimeout(() => {
+        this.config = JSON.parse(savedStyles);
+        this.setStyles(this.config);
+      }, 500);
     }
   }
 
   ngAfterViewInit(): void {
-    this.setStyles(this.config);
+    setTimeout(() => {
+      this.setStyles(this.config);
+    }, 500);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
