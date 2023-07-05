@@ -54,12 +54,12 @@ export class CustomStylesDirective implements OnChanges {
       }
 
       // Clear the previous styles
+
       style.textContent = '';
 
       Object.entries(config.elements).forEach(([tag, styles]) => {
         const elements = this.hostElement.nativeElement.querySelectorAll(tag);
         if (elements.length) {
-          // This Line Fixed Most Of Our Issues :DDDD
           const className = `.ProseMirror ${tag}`;
 
           let css = '';
@@ -67,14 +67,24 @@ export class CustomStylesDirective implements OnChanges {
             if (prop === 'border') {
               const borderStyles = styles.border;
               if (borderStyles) {
+                let borderWidth = borderStyles.width || '0px';
+
+                // Apply border width to all sides if the tag is an img
+                if (tag === 'img') {
+                  borderStyles.top = borderWidth;
+                  borderStyles.right = borderWidth;
+                  borderStyles.bottom = borderWidth;
+                  borderStyles.left = borderWidth;
+                }
+
                 css += `
-                  border-style: ${borderStyles.style || 'none'};
-                  border-color: ${borderStyles.color || 'initial'} !important ;
-                  border-top-width: ${borderStyles.top || '0px'};
-                  border-right-width: ${borderStyles.right || '0px'};
-                  border-bottom-width: ${borderStyles.bottom || '0px'};
-                  border-left-width: ${borderStyles.left || '0px'};
-                `;
+            border-style: ${borderStyles.style || 'none'};
+            border-color: ${borderStyles.color || 'initial'} !important;
+            border-top-width: ${borderStyles.top || '0px'};
+            border-right-width: ${borderStyles.right || '0px'};
+            border-bottom-width: ${borderStyles.bottom || '0px'};
+            border-left-width: ${borderStyles.left || '0px'};
+          `;
               }
             } else {
               css += `${this.toCssNative(prop)}: ${value};`;
@@ -84,8 +94,22 @@ export class CustomStylesDirective implements OnChanges {
           const styleContent = `${className} { ${css} }`;
           style!.textContent += styleContent;
         } else {
+          //...
         }
       });
+
+
+      if (config.elements['.ProseMirror']) {
+        const proseMirrorStyles = config.elements['.ProseMirror'];
+        if (proseMirrorStyles.backgroundColor) {
+          const proseMirrorClassName = '.ProseMirror';
+          const proseMirrorCss = `
+      background-color: ${proseMirrorStyles.backgroundColor};
+    `;
+          const proseMirrorStyleContent = `${proseMirrorClassName} { ${proseMirrorCss} }`;
+          style!.textContent += proseMirrorStyleContent;
+        }
+      }
 
       console.log(style.textContent);
     }

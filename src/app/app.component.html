@@ -3,36 +3,53 @@
 <div class="container-fluid">
   <div class="app-container">
     <div nz-row class="button-group" nzGutter="16">
-      <div nz-col nzSpan="6">
-        <button #h1Button>H1</button>
-      </div>
-      <div nz-col nzSpan="6">
-        <button #h2Button>H2</button>
-      </div>
-      <div nz-col nzSpan="6">
-        <button #h3Button> H3</button>
-      </div>
-      <div nz-col nzSpan="6">
-        <button #blockquoteButton>Quote</button>
-      </div>
-    </div>
-    <div style="margin-top: 25px;" nz-row class="button-group" nzGutter="16">
-      <div nz-col nzSpan="6">
-        <button #codeButton>Code</button>
-      </div>
-      <div nz-col nzSpan="6">
-        <button #imageButton>Image</button>
-      </div>
-      <div nz-col nzSpan="6">
-        <button #LinkButton>A (Link)</button>
-      </div>
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #h1Button>H1</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #h2Button>H2</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #h3Button> H3</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #blockquoteButton>Quote</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div style="margin-top: 25px;" nz-row class="button-group" nzGutter="16">-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #codeButton>Code</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #imageButton>Image</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="6">-->
+<!--        <button #LinkButton>A (Link)</button>-->
+<!--      </div>-->
     </div>
     <div nz-row style="margin-top: 20px;">
       <div nz-col nzSpan="24">
         <div class="editor">
-          <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"
-            [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
-          </tiptap-editor>
+<!--          <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"-->
+<!--            [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">-->
+<!--          </tiptap-editor>-->
+
+          <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">
+            <h1>H1 THIS IS HUGE TITLE OF ARTICLE</h1>
+            <h2>H2 THIS IS BIT TITLE OF ARTICLE</h2>
+            <h3>H3 THIS IS NORMAL TITLE OF ARTICLE</h3>
+            <p>P This is paragraph</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <mark>this is mark aswell</mark> fugit perferendis sunt. Dicta doloribus facere molestias necessitatibus quam quasi unde veniam. Ipsum, iusto necessitatibus.</p>
+            <a>This is link</a>
+
+            <p>this is <mark>text mark</mark></p>
+
+            <blockquote>
+              <p>This is quote</p>
+            </blockquote>
+
+            <img src="https://img.freepik.com/premium-photo/golden-retriever-lying-panting-isolated-white_191971-16974.jpg">
+          </div>
         </div>
       </div>
     </div>
@@ -42,16 +59,8 @@
     <button nz-button nzType="primary" (click)="showModal()">
       <span>Show Result</span>
     </button>
-
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <!-- Todo: Implementation Of Backend Service Adding Font -->
-      <nz-collapse>
-        <nz-collapse-panel nzHeader="Fonts">
-
-
-        </nz-collapse-panel>
-      </nz-collapse>
-
 
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
@@ -83,7 +92,7 @@
               <div class="config-item">
                 <label for="h1-font-size">Font Size </label>
                 <nz-select formGroupName="h1" id="h1-font-size" formControlName="fontSize"
-                  nzPlaceHolder="Select font size">
+                           nzPlaceHolder="Select font size">
                   <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
                 </nz-select>
               </div>
@@ -92,13 +101,11 @@
                 <label for="h1-textAlign">Text Align </label>
                 <div class="text-align-buttons">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                    (click)="customStyles.get('elements.h1.textAlign')?.setValue(option.value)">
+                          (click)="customStyles.get('elements.h1.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
               </div>
-
-
 
             </div>
           </nz-collapse-panel>
@@ -148,7 +155,7 @@
                 <label for="h2-textAlign">Text Align </label>
                 <div id="h2-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                    (click)="customStyles.get('elements.h2.textAlign')?.setValue(option.value)">
+                          (click)="customStyles.get('elements.h2.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -202,14 +209,11 @@
                 <label for="h3-textAlign">Text Align </label>
                 <div id="h3-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                    (click)="customStyles.get('elements.h3.textAlign')?.setValue(option.value)">
+                          (click)="customStyles.get('elements.h3.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
               </div>
-
-              <button type="submit" class="btn btn-danger"></button>
-
 
             </div>
           </nz-collapse-panel>
@@ -232,7 +236,7 @@
               <div class="config-item">
                 <label for="p-font-family">Font Family </label>
                 <nz-select id="p-font-family" formControlName="fontFamily" nzAllowClear
-                  nzPlaceHolder="Choose font family">
+                           nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -250,7 +254,7 @@
                 <label for="p-lineHeight">Line Height</label>
                 <nz-select id="p-lineHeight" formControlName="lineHeight" nzAllowClear nzPlaceHolder="Line Height">
                   <nz-option *ngFor="let height of lineHeightOptions" [nzValue]="height + 'px'"
-                    [nzLabel]="height + 'px'">
+                             [nzLabel]="height + 'px'">
                   </nz-option>
                 </nz-select>
               </div>
@@ -259,9 +263,9 @@
               <div class="config-item">
                 <label for="p-letterSpacing">Letter Spacing</label>
                 <nz-select id="p-letterSpacing" formControlName="letterSpacing" nzAllowClear
-                  nzPlaceHolder="Letter Spacing">
+                           nzPlaceHolder="Letter Spacing">
                   <nz-option *ngFor="let spacing of letterSpacingOptions" [nzValue]="spacing + 'px'"
-                    [nzLabel]="spacing + 'px'">
+                             [nzLabel]="spacing + 'px'">
 
                   </nz-option>
                 </nz-select>
@@ -280,7 +284,7 @@
                 <label for="p-textAlign">Text Align </label>
                 <div id="p-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                    (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
+                          (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -306,7 +310,7 @@
               <div class="config-item">
                 <label for="a-font-family">Font Family </label>
                 <nz-select id="a-font-family" formControlName="fontFamily" nzAllowClear
-                  nzPlaceHolder="Choose font family">
+                           nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -363,7 +367,7 @@
               <div class="config-item">
                 <label for="bq-font-family">Font Family</label>
                 <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
-                  nzPlaceHolder="Choose font family">
+                           nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -392,7 +396,7 @@
                 <label for="p-textAlign">Text Align </label>
                 <div id="p-textAlign" formControlName="textAlign">
                   <button *ngFor="let option of textAlignOptions" class="textAlignButton"
-                    (click)="customStyles.get('elements.blockquote.textAlign')?.setValue(option.value)">
+                          (click)="customStyles.get('elements.blockquote.textAlign')?.setValue(option.value)">
                     <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
                   </button>
                 </div>
@@ -457,7 +461,7 @@
         <nz-collapse>
           <nz-collapse-panel nzHeader="Background-Color">
             <!-- ? For Now This Works On Class In Further Could Be Body Element -->
-            <div formGroupName=".test_box" class="config-box">
+            <div formGroupName=".ProseMirror" class="config-box">
               <h3>Background Color</h3>
 
               <!-- Background Color Picker -->
@@ -473,7 +477,7 @@
 
         <nz-collapse>
           <nz-collapse-panel nzHeader="Mark Color">
-            <div formGroupName="markColor" class="config-box">
+            <div formGroupName="mark" class="config-box">
               <div class="color-picker-box">
                 <label for="mark-color">Color</label>
                 <input id="mark-color" type="color" formControlName="backgroundColor" />
@@ -482,7 +486,45 @@
           </nz-collapse-panel>
         </nz-collapse>
 
-<!--        <button  (click)="location!.reload()">Apply Styles</button>-->
+
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Image">
+            <div formGroupName="img" class="config-box">
+              <div class="config-item">
+                <label for="padding">Padding</label>
+                <input id="padding" type="text" formControlName="padding" />
+              </div>
+              <div class="config-item">
+                <label for="margin">Margin</label>
+                <input id="margin" type="text" formControlName="margin" />
+              </div>
+              <div class="config-item">
+                <label for="border-radius">Border Radius</label>
+                <input id="border-radius" type="text" formControlName="borderRadius" />
+              </div>
+              <div formGroupName="border">
+                <div class="color-picker-box">
+                  <label for="border-color">Border Color</label>
+                  <input id="border-color" type="color" formControlName="color" />
+                </div>
+                <div class="config-item">
+                  <label for="border-width">Border Width</label>
+                  <input id="border-width" type="text" formControlName="width" />
+                </div>
+
+                <div class="config-item">
+                  <label for="border-style" >Border Style</label>
+                  <nz-select id="border-style" formControlName="style" nzAllowClear nzPlaceHolder="Choose Border Style">
+                    <nz-option *ngFor="let option of borderStyleOptions" [nzValue]="option.value"
+                               [nzLabel]="option.label"></nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+
+
 
       </div>
     </form>

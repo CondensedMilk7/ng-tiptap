@@ -159,7 +159,20 @@ export class AppComponent implements OnDestroy {
     { label: 'Right', value: 'right' },
     { label: 'Justify', value: 'justify' },
   ];
+  // ? Border Style Options
+  borderStyleOptions = [
+    { label: 'Solid', value: 'solid' },
+    { label: 'Dashed', value: 'dashed' },
+    { label: 'Dotted', value: 'dotted' },
+    { label: 'Double', value: 'double' },
+    { label: 'Groove', value: 'groove' },
+    { label: 'Ridge', value: 'ridge' },
+    { label: 'Inset', value: 'inset' },
+    { label: 'Outset', value: 'outset' },
+    { label: 'None', value: 'none' },
+    { label: 'Hidden', value: 'hidden' },
 
+  ]
   // ? Font Style Options
   fontStyleOptions = [
     { label: 'Normal', value: 'normal' },
@@ -234,9 +247,9 @@ export class AppComponent implements OnDestroy {
       }),
 
       p: this.fb.group({
-        color: 'red',
+        color: 'black',
         fontFamily: 'Helvetica',
-        fontSize: '4rem',
+        fontSize: '16px',
         textAlign: 'left',
         fontStyle: 'normal',
         letterSpacing: '0',
@@ -271,14 +284,31 @@ export class AppComponent implements OnDestroy {
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
-      // '.test_box': this.fb.group({
-      //   backgroundColor: 'black',
-      // }),
-      markColor: this.fb.group({
-        backgroundColor: ['yellow'],
+      '.ProseMirror': this.fb.group({
+        backgroundColor: 'black',
+      }),
+      mark: this.fb.group({
+        backgroundColor: 'yellow',
+      }),
+      img: this.fb.group({
+        maxWidth: '100%',
+        padding: '10px',
+        margin: '0px',
+        borderRadius: '0px',
+        border: this.fb.group({
+          color: 'orange',
+          style: 'solid',
+          radius: '0px',   // change this to borderRadius
+          width: '25px',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        })
       }),
     }),
   });
+
 
   customStyles$ = new BehaviorSubject<CourseArticleConfig>(
     (this.quillStyle = this.customStyles.getRawValue())

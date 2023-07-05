@@ -28,7 +28,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, CustomStylesDirective, LinkmodalComponent],
+  declarations: [AppComponent, CustomStylesDirective, LinkmodalComponent, ],
   imports: [
     BrowserModule,
     FormsModule,

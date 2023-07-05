@@ -34,6 +34,7 @@ export interface ElementStyles {
   border: Partial<BorderStyles>;
   margin: string;
   padding: string;
+  nestedElements?: Partial<Record<ElementName, Partial<ElementStyles>>>;
 }
 
 export interface BorderStyles {
@@ -61,5 +62,5 @@ export type ElementName =
   | 'a'
   | 'mark'
   | 'blockquote'
-  | '.test_box'
+  | '.ProseMirror'
   | 'img'
