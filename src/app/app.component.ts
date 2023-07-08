@@ -151,14 +151,14 @@ export class AppComponent implements OnDestroy {
           fontStyle: 'normal',
         },
         h2: {
-          color: '#153243',
+          color: '#08141b',
           fontFamily: 'Helvetica',
           textAlign: 'left',
           fontSize: '1.8rem',
           fontStyle: 'normal',
         },
         h3: {
-          color: '#153243',
+          color: 'green',
           fontFamily: 'Helvetica',
           fontSize: '1.6rem',
           textAlign: 'left',
@@ -200,7 +200,7 @@ export class AppComponent implements OnDestroy {
           fontStyle: 'normal',
         },
         '.ProseMirror': {
-          backgroundColor: '#e9e9e9',
+          backgroundColor: '#3786b5',
         },
         mark: {
           backgroundColor: '#ffdb00',

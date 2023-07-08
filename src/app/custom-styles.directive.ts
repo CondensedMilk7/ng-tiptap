@@ -26,7 +26,7 @@ export class CustomStylesDirective implements OnChanges {
   ngOnInit(): void {
     // Getting the saved styles from localstorage
     const savedStyles = localStorage.getItem('custom_styles');
-    if(savedStyles) {
+    if (savedStyles) {
       setTimeout(() => {
         this.config = JSON.parse(savedStyles);
         this.setStyles(this.config);
@@ -101,7 +101,6 @@ export class CustomStylesDirective implements OnChanges {
           //...
         }
       });
-
 
       if (config.elements['.ProseMirror']) {
         const proseMirrorStyles = config.elements['.ProseMirror'];
