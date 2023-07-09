@@ -52,7 +52,6 @@ export class AppComponent implements OnDestroy {
       }),
       Link.configure({
         openOnClick: true,
-
           HTMLAttributes: {
             target: '_blank',
           }

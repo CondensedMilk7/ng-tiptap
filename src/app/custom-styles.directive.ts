@@ -9,7 +9,7 @@ import {
   Renderer2,
   Inject,
 } from '@angular/core';
-import { CourseArticleConfig } from './custom-styles.model';
+import { CourseArticleConfig, ElementName } from './custom-styles.model';
 encapsulation: ViewEncapsulation.None;
 import { DOCUMENT } from '@angular/common';
 @Directive({
@@ -26,7 +26,7 @@ export class CustomStylesDirective implements OnChanges {
   ngOnInit(): void {
     // Getting the saved styles from localstorage
     const savedStyles = localStorage.getItem('custom_styles');
-    if(savedStyles) {
+    if (savedStyles) {
       setTimeout(() => {
         this.config = JSON.parse(savedStyles);
         this.setStyles(this.config);
@@ -102,16 +102,64 @@ export class CustomStylesDirective implements OnChanges {
         }
       });
 
-
       if (config.elements['.ProseMirror']) {
         const proseMirrorStyles = config.elements['.ProseMirror'];
         if (proseMirrorStyles.backgroundColor) {
           const proseMirrorClassName = '.ProseMirror';
-          const proseMirrorCss = `
-      background-color: ${proseMirrorStyles.backgroundColor};
-    `;
+          const proseMirrorCss = `-color: ${proseMirrorStyles.backgroundColor};`;
           const proseMirrorStyleContent = `${proseMirrorClassName} { ${proseMirrorCss} }`;
           style!.textContent += proseMirrorStyleContent;
+        }
+      }
+      if (config.elements['blockquote']) {
+        const blockquoteStyles = config.elements['blockquote'];
+
+        // First, find the blockquote element in the host element
+        const blockquote =
+          this.hostElement.nativeElement.querySelector('blockquote');
+
+        if (blockquote) {
+          const children = blockquote.querySelectorAll('*');
+
+          children.forEach((child: any) => {
+            const tagName = child.tagName.toLowerCase();
+
+            const tagStyles = config.elements[tagName as ElementName];
+
+            if (tagStyles) {
+              let css = '';
+              Object.entries(tagStyles).forEach(([prop, value]) => {
+                if (prop === 'border') {
+                  const borderStyles = tagStyles.border;
+                  if (borderStyles) {
+                    let borderWidth = borderStyles.width || '0px';
+                    borderStyles.top = borderWidth;
+                    borderStyles.right = borderWidth;
+                    borderStyles.bottom = borderWidth;
+                    borderStyles.left = borderWidth;
+
+                    css += `
+          border-style: ${borderStyles.style || 'none'};
+          border-color: ${borderStyles.color || 'initial'} !important;
+          border-top-width: ${borderStyles.top || '0px'};
+          border-right-width: ${borderStyles.right || '0px'};
+          border-bottom-width: ${borderStyles.bottom || '0px'};
+          border-left-width: ${borderStyles.left || '0px'};
+        `;
+                  }
+                } else if (prop === 'color' || prop === 'backgroundColor') {
+                  // If the property is 'color' or 'backgroundColor'
+                  let color = blockquoteStyles?.color || 'red';
+                  css += `${this.toCssNative('color')}: ${color};`; // Add the color to the css
+                } else {
+                }
+              });
+
+              // Apply the styles to the style element in the document head
+              const styleContent = `.ProseMirror blockquote ${tagName} { ${css} }`;
+              style!.textContent += styleContent;
+            }
+          });
         }
       }
 
