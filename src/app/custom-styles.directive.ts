@@ -106,7 +106,9 @@ export class CustomStylesDirective implements OnChanges {
         const proseMirrorStyles = config.elements['.ProseMirror'];
         if (proseMirrorStyles.backgroundColor) {
           const proseMirrorClassName = '.ProseMirror';
-          const proseMirrorCss = `-color: ${proseMirrorStyles.backgroundColor};`;
+          const proseMirrorCss = `
+      background-color: ${proseMirrorStyles.backgroundColor};
+    `;
           const proseMirrorStyleContent = `${proseMirrorClassName} { ${proseMirrorCss} }`;
           style!.textContent += proseMirrorStyleContent;
         }
@@ -139,19 +141,51 @@ export class CustomStylesDirective implements OnChanges {
                     borderStyles.left = borderWidth;
 
                     css += `
-          border-style: ${borderStyles.style || 'none'};
-          border-color: ${borderStyles.color || 'initial'} !important;
-          border-top-width: ${borderStyles.top || '0px'};
-          border-right-width: ${borderStyles.right || '0px'};
-          border-bottom-width: ${borderStyles.bottom || '0px'};
-          border-left-width: ${borderStyles.left || '0px'};
-        `;
+                      border-style: ${borderStyles.style || 'none'};
+                      border-color: ${
+                        borderStyles.color || 'initial'
+                      } !important;
+                      border-top-width: ${borderStyles.top || '0px'};
+                      border-right-width: ${borderStyles.right || '0px'};
+                      border-bottom-width: ${borderStyles.bottom || '0px'};
+                      border-left-width: ${borderStyles.left || '0px'};
+                    `;
                   }
-                } else if (prop === 'color' || prop === 'backgroundColor') {
-                  // If the property is 'color' or 'backgroundColor'
+                } else if (prop === 'color') {
                   let color = blockquoteStyles?.color || 'red';
-                  css += `${this.toCssNative('color')}: ${color};`; // Add the color to the css
+                  css += `${this.toCssNative('color')}: ${color};`;
+                } else if (prop === 'backgroundColor') {
+                  let backgroundColor =
+                    blockquoteStyles?.backgroundColor || 'white';
+                  css += `${this.toCssNative(
+                    'backgroundColor'
+                  )}: ${backgroundColor};`;
+                } else if (prop === 'fontFamily') {
+                  let fontFamily = blockquoteStyles?.fontFamily || 'serif';
+                  css += `font-family: ${fontFamily};`;
+                } else if (prop === 'fontSize') {
+                  let fontSize = blockquoteStyles?.fontSize || '1.2rem';
+                  css += `font-size: ${fontSize};`;
+                } else if (prop === 'fontStyle') {
+                  let fontStyle = blockquoteStyles?.fontStyle || 'normal';
+                  css += `font-style: ${fontStyle};`;
+                } else if (prop === 'maxWidth') {
+                  let maxWidth = blockquoteStyles?.maxWidth || '100%';
+                  css += `max-width: ${maxWidth};`;
+                } else if (prop === 'padding') {
+                  let padding = blockquoteStyles?.padding || '10px';
+                  css += `padding: ${padding};`;
+                } else if (prop === 'margin') {
+                  let margin = blockquoteStyles?.margin || '0px';
+                  css += `margin: ${margin};`;
+                } else if (prop === 'textAlign') {
+                  let textAlign = blockquoteStyles?.textAlign || 'left';
+                  css += `text-align: ${textAlign};`;
+                } else if (prop === 'borderRadius') {
+                  let borderRadius = blockquoteStyles?.border?.radius || '0px';
+                  css += `border-radius: ${borderRadius};`;
                 } else {
+                  css += `${this.toCssNative(prop)}: ${value};`;
                 }
               });
 
@@ -162,8 +196,6 @@ export class CustomStylesDirective implements OnChanges {
           });
         }
       }
-
-      console.log(style.textContent);
     }
   }
 
