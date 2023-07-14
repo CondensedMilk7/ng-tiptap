@@ -40,6 +40,7 @@ import { fontStyleOptions } from './data/font-style-options';
 import { defaultFontFamilies, loadFont } from './data/font-family.options';
 import { EditorButtonsService } from './services/editor-buttons.service';
 import Youtube from '@tiptap/extension-youtube';
+import Highlight from '@tiptap/extension-highlight';
 
 @Component({
   selector: 'app-root',
@@ -56,8 +57,6 @@ export class AppComponent implements OnDestroy {
 
     location.reload();
   }
-
-
 
   displayTableSettings = false;
 
@@ -96,6 +95,7 @@ export class AppComponent implements OnDestroy {
       TableCell,
       TableHeader,
       Youtube.configure({}),
+      Highlight.configure({}),
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
@@ -125,6 +125,7 @@ export class AppComponent implements OnDestroy {
   @ViewChild('tableAddColumnButton') tableAddColumnButton!: ElementRef;
   @ViewChild('videoButton') videoButton!: ElementRef;
   @ViewChild('CustomButton') CustomButton!: ElementRef;
+  @ViewChild('markButton') markButton!: ElementRef;
 
   //Imp:  Define Buttons Logic Here
   ngAfterViewInit(): void {
@@ -206,6 +207,10 @@ export class AppComponent implements OnDestroy {
 
     this.videoButton.nativeElement.addEventListener('click', () => {
       this.editorButtonService.addVideo(this.editor, this.modalService);
+    });
+
+    this.markButton.nativeElement.addEventListener('click', () => {
+      this.editorButtonService.addMark(this.editor);
     });
   }
 

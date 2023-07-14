@@ -38,7 +38,6 @@ export class EditorButtonsService {
     });
   }
 
-
   applyLink(
     editor: Editor,
     modalService: NzModalService,
@@ -146,5 +145,9 @@ export class EditorButtonsService {
         }
       }
     });
+  }
+
+  addMark(editor: Editor) {
+    editor.chain().focus().setMark('highlight').run();
   }
 }
