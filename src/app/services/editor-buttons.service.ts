@@ -148,6 +148,6 @@ export class EditorButtonsService {
   }
 
   addMark(editor: Editor) {
-    editor.chain().focus().setMark('highlight').run();
+    editor.chain().focus().toggleMark('highlight').run();
   }
 }
