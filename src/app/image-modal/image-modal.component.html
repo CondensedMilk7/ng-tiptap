@@ -1,8 +1,10 @@
-<div>
-  <h3>Add an Image</h3>
-  <input [(ngModel)]="imageUrl" nz-input placeholder="Enter image URL">
-  <br/>
-  <button nz-button nzType="primary" (click)="submitForm()">Submit</button>
-
-  <p>სატესტოდ სანამ სერვისი გვექნება ლინკზე მუშაობს</p>
-</div>
+<input type="file" (change)="fileChangeEvent($event)" />
+<image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+></image-cropper>
+<img [src]="croppedImage" />
+<button nz-button nzType="primary" (click)="submitForm()">Submit</button>

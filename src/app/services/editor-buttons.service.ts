@@ -38,6 +38,7 @@ export class EditorButtonsService {
     });
   }
 
+
   applyLink(
     editor: Editor,
     modalService: NzModalService,

@@ -39,6 +39,7 @@
     "lowlight": "^2.9.0",
     "ng-zorro-antd": "^16.0.0",
     "ngx-color-picker": "^14.0.0",
+    "ngx-image-cropper": "^7.0.1",
     "ngx-tiptap": "^8.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

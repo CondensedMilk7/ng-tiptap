@@ -28,6 +28,8 @@ import { TableModalComponent } from './table-modal/table-modal.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { VideoModalComponent } from './video-modal/video-modal.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -60,6 +62,7 @@ registerLocaleData(en);
     NzMessageModule,
     NzGridModule,
     NzSwitchModule,
+    ImageCropperModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
