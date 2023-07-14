@@ -51,6 +51,7 @@ export class AppComponent implements OnDestroy {
   // Imp: Configuration Of Editor
   isEditorEnabled = true;
   toggleEditorMode(isEditorEnabled: boolean): void {
+    // store the current mode in local storage
     localStorage.setItem('editorMode', isEditorEnabled ? 'editor' : 'static');
 
     location.reload();

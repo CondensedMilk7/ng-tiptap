@@ -4,8 +4,9 @@
 </div>
 <div class="container-fluid">
   <div class="app-container">
-    <nz-switch [(ngModel)]="isEditorEnabled" nzCheckedChildren="Editor" nzUnCheckedChildren="Static" (ngModelChange)="toggleEditorMode($event)"></nz-switch>
-    <div class="button_box" *ngIf="isEditorEnabled">
+    <nz-switch [(ngModel)]="isEditorEnabled" nzCheckedChildren="Editor" nzUnCheckedChildren="Static"
+      (ngModelChange)="toggleEditorMode($event)"></nz-switch>
+    <div class="button_box" *ngIf="!isEditorEnabled">
       <div class="row button-group">
         <div class="col-2"><button #h1Button class="editor-btn"><i class="fas fa-heading"></i> H1</button></div>
         <div class="col-2"><button #h2Button class="editor-btn"><i class="fas fa-heading"></i> H2</button></div>
@@ -73,14 +74,14 @@
       <div nz-col nzSpan="24">
         <div nz-col nzSpan="24">
 
-          <div class="editor" *ngIf="isEditorEnabled">
+          <div class="editor" *ngIf="!isEditorEnabled">
             <!-- editor code here -->
             <tiptap-editor class="editor" appCustomStyles [config]="customStyles$ | async" [editor]="editor"
               [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
             </tiptap-editor>
           </div>
 
-          <div class="static-styles" *ngIf="!isEditorEnabled">
+          <div class="static-styles" *ngIf="isEditorEnabled">
             <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">
               <h1>H1 THIS IS HUGE TITLE OF ARTICLE</h1>
               <h2>H2 THIS IS BIT TITLE OF ARTICLE</h2>
