@@ -4,61 +4,108 @@
 </div>
 <div class="container-fluid">
   <div class="app-container">
-    <div nz-row class="button-group" nzGutter="16">
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #h1Button>H1</button>-->
-      <!--      </div>-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #h2Button>H2</button>-->
-      <!--      </div>-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #h3Button> H3</button>-->
-      <!--      </div>-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #blockquoteButton>Quote</button>-->
-      <!--      </div>-->
-      <!--    </div>-->
-      <!--    <div style="margin-top: 25px;" nz-row class="button-group" nzGutter="16">-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #codeButton>Code</button>-->
-      <!--      </div>-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #imageButton>Image</button>-->
-      <!--      </div>-->
-      <!--      <div nz-col nzSpan="6">-->
-      <!--        <button #LinkButton>A (Link)</button>-->
-      <!--      </div>-->
+    <nz-switch [(ngModel)]="isEditorEnabled" nzCheckedChildren="Editor" nzUnCheckedChildren="Static" (ngModelChange)="toggleEditorMode($event)"></nz-switch>
+    <div class="button_box" *ngIf="isEditorEnabled">
+      <div class="row button-group">
+        <div class="col-2"><button #h1Button class="editor-btn"><i class="fas fa-heading"></i> H1</button></div>
+        <div class="col-2"><button #h2Button class="editor-btn"><i class="fas fa-heading"></i> H2</button></div>
+        <div class="col-2"><button #h3Button class="editor-btn"><i class="fas fa-heading"></i> H3</button></div>
+        <div class="col-2"><button #blockquoteButton class="editor-btn"><i class="fas fa-quote-left"></i>
+            Quote</button>
+        </div>
+        <div class="col-2"><button #codeButton class="editor-btn"><i class="fas fa-code"></i> Code</button></div>
+        <div class="col-2"><button #imageButton class="editor-btn"><i class="fas fa-image"></i> Image</button></div>
+      </div>
+      <div class="row button-group mt-3">
+        <div class="col-2"><button #LinkButton class="editor-btn"><i class="fas fa-link"></i> A (Link)</button></div>
+        <div class="col-2"><button #boldButton class="editor-btn"><i class="fas fa-bold"></i> B</button></div>
+        <div class="col-2"><button #italicButton class="editor-btn"><i class="fas fa-italic"></i> I</button></div>
+        <div class="col-2"><button #unorderedListButton class="editor-btn"><i class="fas fa-list-ul"></i> UL</button>
+        </div>
+        <div class="col-2"><button #orderedListButton class="editor-btn"><i class="fas fa-list-ol"></i> OL</button>
+        </div>
+        <div class="col-2">
+          <button #tableButton class="editor-btn"><i class="fas fa-table"></i> Table</button>
+        </div>
+        <div class="col2">
+          <button #videoButton class="editor-btn"><i class="fas fa-video"></i> Video</button>
+        </div>
+        <!-- <div class="col2">
+          <button #customButton class="editor-btn"><i class="fab fa-angular"></i> MagicButton</button>
+        </div> -->
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-12">
+          <nz-collapse>
+            <nz-collapse-panel nzHeader="Table Related Buttons">
+              <div class="collapse-content">
+                <div class="row">
+                  <div class="col-2">
+                    <button #tableAddRowButton class="editor-btn"><i class="fas fa-plus"></i></button>
+                    <div class="button-text">Add Row</div>
+                  </div>
+                  <div class="col-2">
+                    <button #tableAddColumnButton class="editor-btn"><i class="fas fa-plus-square"></i></button>
+                    <div class="button-text">Add Column</div>
+                  </div>
+                  <div class="col-2">
+                    <button #tableDeleteRowButton class="editor-btn"><i class="fas fa-trash-alt"></i></button>
+                    <div class="button-text">Delete Row</div>
+                  </div>
+                  <div class="col-2">
+                    <button #tableDeleteColumnButton class="editor-btn"><i class="fas fa-trash-alt"></i></button>
+                    <div class="button-text">Delete Column</div>
+                  </div>
+                  <div class="col-2">
+                    <button #tableDeleteTableButton class="editor-btn"><i class="fas fa-trash-alt"></i></button>
+                    <div class="button-text">Delete Table</div>
+                  </div>
+                </div>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        </div>
+      </div>
     </div>
+
     <div class="content_side" nz-row style="margin-top: 20px;">
       <div nz-col nzSpan="24">
-        <div class="editor">
-          <!--          <tiptap-editor appCustomStyles [config]="customStyles$ | async" [editor]="editor"-->
-          <!--            [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">-->
-          <!--          </tiptap-editor>-->
+        <div nz-col nzSpan="24">
 
-          <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">
-            <h1>H1 THIS IS HUGE TITLE OF ARTICLE</h1>
-            <h2>H2 THIS IS BIT TITLE OF ARTICLE</h2>
-            <h3>H3 THIS IS NORMAL TITLE OF ARTICLE</h3>
-            <p>P This is paragraph</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <mark>this is mark aswell</mark> fugit
-              perferendis sunt. Dicta doloribus facere molestias necessitatibus quam quasi unde veniam. Ipsum, iusto
-              necessitatibus.</p>
-            <a href="https://www.facebook.com/">This is link</a>
+          <div class="editor" *ngIf="isEditorEnabled">
+            <!-- editor code here -->
+            <tiptap-editor class="editor" appCustomStyles [config]="customStyles$ | async" [editor]="editor"
+              [ngModel]="quillContent$ | async" (ngModelChange)="onContentUpdated($event)">
+            </tiptap-editor>
+          </div>
 
-            <p>this is <mark>text mark</mark></p>
+          <div class="static-styles" *ngIf="!isEditorEnabled">
+            <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">
+              <h1>H1 THIS IS HUGE TITLE OF ARTICLE</h1>
+              <h2>H2 THIS IS BIT TITLE OF ARTICLE</h2>
+              <h3>H3 THIS IS NORMAL TITLE OF ARTICLE</h3>
+              <p>P This is paragraph</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <mark>this is mark aswell</mark> fugit
+                perferendis sunt. Dicta doloribus facere molestias necessitatibus quam quasi unde veniam. Ipsum, iusto
+                necessitatibus.</p>
+              <a href="https://www.facebook.com/">This is link</a>
 
-            <blockquote>
-              <p>This is quote</p>
-            </blockquote>
+              <p>this is <mark>text mark</mark></p>
 
-            <img
-              src="https://img.freepik.com/premium-photo/golden-retriever-lying-panting-isolated-white_191971-16974.jpg">
+              <blockquote>
+                <p>This is quote</p>
+              </blockquote>
+
+              <img
+                src="https://img.freepik.com/premium-photo/golden-retriever-lying-panting-isolated-white_191971-16974.jpg">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
@@ -68,12 +115,12 @@
     <nz-collapse>
       <nz-collapse-panel nzHeader="Editor Styles">
         <div class="theme-list">
-          <button class="theme-btn neutral-theme" (click)="switchTheme('neutral')"></button>
-          <button class="theme-btn dark-theme" (click)="switchTheme('dark')"></button>
-          <button class="theme-btn pink-theme" (click)="switchTheme('pink')"></button>
+          <button *ngFor="let theme of themes" class="theme-btn {{theme}}-theme" (click)="switchTheme(theme)"></button>
         </div>
       </nz-collapse-panel>
     </nz-collapse>
+
+
 
 
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
@@ -273,7 +320,7 @@
                   <div class="text-align-buttons">
                     <button *ngFor="let option of textAlignOptions" class="textAlignButton"
                       (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
-                      <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                      <i [class]="getIconClass(option.value)" aria-hidden="true"></i>
                     </button>
                   </div>
                 </nz-col>
@@ -471,7 +518,7 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        
+
         <nz-collapse>
           <nz-collapse-panel nzHeader="Image">
             <div formGroupName="img" class="config-box">
