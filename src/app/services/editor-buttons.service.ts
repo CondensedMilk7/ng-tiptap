@@ -31,9 +31,10 @@ export class EditorButtonsService {
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });
 
-    modal.afterClose.subscribe((src) => {
-      if (src) {
-        editor.chain().focus().setImage({ src }).run();
+    modal.afterClose.subscribe((base64) => {
+      if (base64) {
+        console.log('Base64:', base64); // Log the base64 string
+        editor.chain().focus().setImage({ src: base64 }).run();
       }
     });
   }
