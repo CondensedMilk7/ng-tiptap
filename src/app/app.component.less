@@ -1,34 +1,92 @@
-/* Alphabetically ordered */
 .app-container {
-  align-items: center;
-  background-color: #f0f2f5;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
   padding: 20px;
-  width: 100%;
+  background-color: #f0f2f5;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.bold {
-  font-weight: 700;
+
+
+
+.button_box {
+  display: flex;
+  align-items: center;
 }
 
 .button-group {
   display: flex;
+  align-items: center;
   justify-content: flex-start;
-  align-items: flex-start;
 }
 
+.button-group button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 
-
-button {
-  background-color: #fff;
-  border: 1px solid #7f56d9;
-  color: #7f56d9;
+.editor-content {
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 100%;
 }
+
+
+.static-styles{
+  width: 700px;
+}
+
+.content_side .ProseMirror {
+  padding: 15px;
+}
+
+.overlay-btn{
+  padding: 4px 8px;
+  margin: 10px 0;
+  font-size: 1rem;
+  background: #e4e4e4;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  color: #333;
+  transition: background 0.3s ease;
+}
+
+
+.bold {
+  font-weight: 700;
+}
+.img-align-left {
+  float: left;
+}
+
+.img-align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-align-right {
+  float: right;
+}
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.button-group > * {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+
 
 button:hover {
   background-color: #7f56d9;
@@ -39,63 +97,6 @@ button i {
   margin-right: 8px;
 }
 
-.config-box {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.config-box .color-picker-box {
-  align-items: center;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 300px;
-}
-
-.config-box .config-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.config-box .config-item .text-align-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.config-box input {
-  border: 1px solid #d9d9d9;
-  height: 33px;
-  width: 70%;
-}
-
-.config-box label {
-  color: #595959;
-  font-size: 14px;
-}
-
-.config-item {
-  margin-bottom: 16px;
-}
-
-.config-item input {
-  border: 1px solid #ddd;
-  border: 0;
-  box-sizing: border-box;
-  min-height: 30px;
-  padding: 0px 6px;
-  width: 100%;
-}
-
-.config-item label {
-  color: #333;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-
 .container {
   margin-top: 25px;
 }
@@ -103,21 +104,17 @@ button i {
 .container-fluid {
   display: grid;
   grid-template-columns: 2fr 0.6fr;
+  position: relative;
 }
 
 .container-fluid .style-editor {
   height: 900px;
-  overflow-y: scroll;
   padding: 8px;
+  position: sticky;
+  top: 0;
+  overflow-y: scroll;
 }
 
-.content_side {
-  width: 700px;
-}
-
-.content_side .ProseMirror {
-  padding: 15px;
-}
 
 .dark-theme {
   background: black;
@@ -219,8 +216,7 @@ a {
 }
 
 .editor-btn {
-  width: 100%;
-  padding: 10px 20px;
+  padding: 4px 8px;
   margin: 10px 0;
   font-size: 1rem;
   background: #e4e4e4;
@@ -232,14 +228,15 @@ a {
   justify-content: center;
   color: #333;
   transition: background 0.3s ease;
-
 }
+
 
 .editor-btn:hover {
   background: #636363;
 }
 
 .editor-btn i {
+  font-size: 11px;
   margin-right: 8px;
 }
 
@@ -247,18 +244,19 @@ a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px;
-  width: 60%;
+  width: 80%;
 }
 
 .button-group {
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 10px;
 }
 
 .button-group > * {
   margin-right: 7px;
+  margin-bottom: 10px;
 }
 
 .collapse-content {
@@ -272,8 +270,63 @@ a {
 }
 
 .collapse-content .row > * {
-  flex-basis: 5%;
-  margin-bottom: 10px;
   margin-right: 7px;
+  margin-bottom: 10px;
 }
 
+.config-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.config-box .color-picker-box {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+}
+
+.config-box .config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.config-box .config-item .text-align-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.config-box input {
+  border: 1px solid #d9d9d9;
+  height: 33px;
+  width: 70%;
+}
+
+.config-box label {
+  color: #595959;
+  font-size: 14px;
+}
+
+.config-item {
+  margin-bottom: 16px;
+}
+
+.config-item input {
+  border: 1px solid #ddd;
+  border: 0;
+  box-sizing: border-box;
+  min-height: 30px;
+  padding: 0px 6px;
+  width: 100%;
+}
+
+.config-item label {
+  color: #333;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}

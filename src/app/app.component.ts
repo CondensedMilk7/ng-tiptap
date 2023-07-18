@@ -7,6 +7,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
+import { HostListener } from '@angular/core';
 
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
@@ -212,6 +213,76 @@ export class AppComponent implements OnDestroy {
     this.markButton.nativeElement.addEventListener('click', () => {
       this.editorButtonService.addMark(this.editor);
     });
+  }
+
+  @ViewChild('overlay', { static: false }) overlay!: ElementRef;
+
+  @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
+  private hideOverlayTimeout: any;
+
+  editorContentMouseover(event: MouseEvent) {
+    clearTimeout(this.hideOverlayTimeout);
+
+    const target = event.target as HTMLElement;
+    const tableWrapper = document.querySelector('.tableWrapper');
+
+    if (
+      target.nodeName === 'TABLE' ||
+      (tableWrapper && tableWrapper.contains(target))
+    ) {
+      const table =
+        target.nodeName === 'TABLE' ? target : target.closest('table');
+      const rect = table?.getBoundingClientRect();
+      const overlay = this.overlay.nativeElement;
+
+      const tableLeft = rect!.left + window.pageXOffset;
+      const tableTop = rect!.top + window.pageYOffset + rect!.height;
+
+      overlay.style.left = `${tableLeft}px`;
+      overlay.style.top = `${tableTop}px`;
+      overlay.style.display = 'block';
+    }
+  }
+
+  editorContentMouseleave(event: MouseEvent) {
+    this.hideOverlayTimeout = setTimeout(() => {
+      this.overlay.nativeElement.style.display = 'none';
+    }, 100);
+  }
+
+  @HostListener('mouseover', ['$event'])
+  onMouseOver(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (this.overlay.nativeElement.contains(target)) {
+      clearTimeout(this.hideOverlayTimeout); // Clear hideOverlayTimeout if we're hovering over the overlay
+    }
+  }
+
+  onOverlayMouseLeave(event: MouseEvent) {
+    this.hideOverlayTimeout = setTimeout(() => {
+      this.overlay.nativeElement.style.display = 'none';
+    }, 100); // 100ms delay before hiding the overlay
+  }
+
+  deleteTable(editor: Editor): void {
+    editor.chain().focus().deleteTable().run();
+  }
+
+  addRowAfter(editor: Editor): void {
+    editor.chain().focus().addRowAfter().run();
+  }
+
+  deleteRow(editor: Editor): void {
+    editor.chain().focus().deleteRow().run();
+  }
+
+  addColumnAfter(editor: Editor): void {
+    editor.chain().focus().addColumnAfter().run();
+  }
+
+  deleteColumn(editor: Editor): void {
+    editor.chain().focus().deleteColumn().run();
   }
 
   switchTheme(theme: string) {
