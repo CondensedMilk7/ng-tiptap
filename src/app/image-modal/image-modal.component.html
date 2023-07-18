@@ -1,16 +1,13 @@
 <div class="container">
   <input type="file" (change)="fileChangeEvent($event)" class="file-input" />
 
-  <label for="aspect-ratio">Aspect Ratio: {{ aspectRatio }}</label>
-  <input type="range" id="aspect-ratio" [(ngModel)]="aspectRatio" min="0.2" max="5" step="0.1" class="slider" />
-
   <label for="preview-width">Preview Width: {{ previewWidth }}px</label>
   <input type="range" id="preview-width" [ngModel]="previewWidth" (ngModelChange)="updateCropper($event)" min="100" max="600" class="slider" />
 
   <image-cropper
     *ngIf="showCropper"
     [imageChangedEvent]="imageChangedEvent"
-    [maintainAspectRatio]="true"
+    [maintainAspectRatio]="false"
     [aspectRatio]="aspectRatio"
     format="png"
     [resizeToWidth]="resizeSettings.width"
