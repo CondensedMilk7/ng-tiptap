@@ -42,6 +42,7 @@ import { defaultFontFamilies, loadFont } from './data/font-family.options';
 import { EditorButtonsService } from './services/editor-buttons.service';
 import Youtube from '@tiptap/extension-youtube';
 import Highlight from '@tiptap/extension-highlight';
+import { ImageWithButtons } from './custom-image';
 
 @Component({
   selector: 'app-root',
@@ -97,6 +98,7 @@ export class AppComponent implements OnDestroy {
       TableHeader,
       Youtube.configure({}),
       Highlight.configure({}),
+      ImageWithButtons,
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
@@ -128,7 +130,6 @@ export class AppComponent implements OnDestroy {
   @ViewChild('CustomButton') CustomButton!: ElementRef;
   @ViewChild('markButton') markButton!: ElementRef;
 
-  //Imp:  Define Buttons Logic Here
   ngAfterViewInit(): void {
     this.h1Button.nativeElement.addEventListener('click', () => {
       this.editorButtonService.applyHeading(this.editor, 1);
@@ -220,27 +221,37 @@ export class AppComponent implements OnDestroy {
   @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
   private hideOverlayTimeout: any;
 
-  editorContentMouseover(event: MouseEvent) {
+  editorContentClick(event: MouseEvent) {
     clearTimeout(this.hideOverlayTimeout);
 
     const target = event.target as HTMLElement;
-    const tableWrapper = document.querySelector('.tableWrapper');
+    const tableWrappers = document.querySelectorAll('.tableWrapper');
 
-    if (
-      target.nodeName === 'TABLE' ||
-      (tableWrapper && tableWrapper.contains(target))
-    ) {
-      const table =
-        target.nodeName === 'TABLE' ? target : target.closest('table');
-      const rect = table?.getBoundingClientRect();
-      const overlay = this.overlay.nativeElement;
+    // Get The Table Wrappers Here
+    for (let i = 0; i < tableWrappers.length; i++) {
+      const tableWrapper = tableWrappers[i];
 
-      const tableLeft = rect!.left + window.pageXOffset;
-      const tableTop = rect!.top + window.pageYOffset + rect!.height;
+      if (
+        target.nodeName === 'TABLE' ||
+        (tableWrapper && tableWrapper.contains(target))
+      ) {
+        const table =
+          target.nodeName === 'TABLE' ? target : target.closest('table');
+        const rect = table?.getBoundingClientRect();
+        const overlay = this.overlay.nativeElement;
 
-      overlay.style.left = `${tableLeft}px`;
-      overlay.style.top = `${tableTop}px`;
-      overlay.style.display = 'block';
+        const tableLeft = rect!.left + window.pageXOffset;
+        const tableTop = rect!.top + window.pageYOffset + rect!.height;
+
+        overlay.style.left = `${tableLeft}px`;
+        overlay.style.top = `${tableTop}px`;
+
+        if (overlay.style.display == 'block') {
+          overlay.style.display = 'none';
+        } else {
+          overlay.style.display = 'block';
+        }
+      }
     }
   }
 

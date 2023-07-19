@@ -32,9 +32,19 @@ export class EditorButtonsService {
     });
 
     modal.afterClose.subscribe((base64) => {
+      console.log(base64); // Check this output
       if (base64) {
-        console.log('Base64:', base64); // Log the base64 string
-        editor.chain().focus().setImage({ src: base64 }).run();
+        console.log('Base64:', base64);
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: 'imageWithButtons',
+            attrs: {
+              src: base64,
+            },
+          })
+          .run();
       }
     });
   }
@@ -133,7 +143,7 @@ export class EditorButtonsService {
 
   addVideo(editor: Editor, modalService: NzModalService): void {
     const modal = modalService.create({
-      nzContent: VideoModalComponent, // Replace with your actual Angular component for the modal
+      nzContent: VideoModalComponent,
       nzClosable: false,
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });

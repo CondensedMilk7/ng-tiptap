@@ -20,6 +20,7 @@ export class ImageModalComponent {
   constructor(private modalRef: NzModalRef, private sanitizer: DomSanitizer) {}
 
   submitForm(): void {
+    console.log(this.croppedImage); // Check this output
     this.modalRef.close(this.croppedImage);
   }
 
@@ -47,6 +48,6 @@ export class ImageModalComponent {
   // Added this function
   forceCropperRerender() {
     this.showCropper = false;
-    setTimeout(() => this.showCropper = true, 0);
+    setTimeout(() => (this.showCropper = true), 0);
   }
 }

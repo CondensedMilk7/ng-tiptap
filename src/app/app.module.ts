@@ -29,6 +29,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { VideoModalComponent } from './video-modal/video-modal.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageComponent } from './image/image.component';
 
 registerLocaleData(en);
 
@@ -40,6 +41,7 @@ registerLocaleData(en);
     TableModalComponent,
     VideoModalComponent,
     ImageModalComponent,
+    ImageComponent,
   ],
   imports: [
     BrowserModule,
