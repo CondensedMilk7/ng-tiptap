@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { EditorButtonsService } from '../services/editor-buttons.service';
 
 @Component({
   selector: 'app-image-component',
@@ -6,23 +7,24 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './image.component.html',
 })
 export class ImageComponent {
+  constructor(private _buttonService: EditorButtonsService) {}
+
   @Input() src!: string;
   @Output() action1 = new EventEmitter<void>();
   @Output() action2 = new EventEmitter<void>();
   @Output() action3 = new EventEmitter<void>();
 
+  imgClass = '';
+
   onAction1() {
-    console.log('Action 1 clicked');
-    this.action1.emit();
+    this._buttonService.testing();
   }
 
   onAction2() {
-    console.log('Action 2 clicked');
-    this.action2.emit();
+    this._buttonService.testing();
   }
 
   onAction3() {
-    console.log('Action 3 clicked');
-    this.action3.emit();
+    this._buttonService.testing();
   }
 }

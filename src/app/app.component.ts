@@ -8,7 +8,6 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import { HostListener } from '@angular/core';
-
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
@@ -43,6 +42,7 @@ import { EditorButtonsService } from './services/editor-buttons.service';
 import Youtube from '@tiptap/extension-youtube';
 import Highlight from '@tiptap/extension-highlight';
 import { ImageWithButtons } from './custom-image';
+import { Gapcursor } from '@tiptap/extension-gapcursor';
 
 @Component({
   selector: 'app-root',
@@ -97,6 +97,7 @@ export class AppComponent implements OnDestroy {
       TableCell,
       TableHeader,
       Youtube.configure({}),
+      Gapcursor,
       Highlight.configure({}),
       ImageWithButtons,
     ],
@@ -214,10 +215,62 @@ export class AppComponent implements OnDestroy {
     this.markButton.nativeElement.addEventListener('click', () => {
       this.editorButtonService.addMark(this.editor);
     });
+
+    // this.setupMutationObserver();
   }
 
-  @ViewChild('overlay', { static: false }) overlay!: ElementRef;
+  // setupMutationObserver() {
+  //   const targetNode = document.getElementById('tiptapEditor'); // your editor id
 
+  //   if (!targetNode) {
+  //     console.error('Editor not found');
+  //     return;
+  //   }
+
+  //   const observerOptions = {
+  //     childList: true,
+  //     attributes: true,
+  //     subtree: true, // Set to true if you also want to observe the descendants of the target
+  //   };
+
+  //   const observer = new MutationObserver((mutations, observer) => {
+  //     // Check if new nodes were added
+  //     mutations.forEach((mutation) => {
+  //       if (mutation.addedNodes.length > 0) {
+  //         this.setupButtonEventListeners();
+  //       }
+  //     });
+  //   });
+
+  //   observer.observe(targetNode, observerOptions);
+  // }
+
+  // setupButtonEventListeners() {
+  //   const container = document.getElementById('tiptapEditor'); // your editor id
+
+  //   if (!container) {
+  //     console.error('Editor container not found');
+  //     return;
+  //   }
+
+  //   container.addEventListener('click', (event) => {
+  //     if (
+  //       event.target instanceof HTMLElement &&
+  //       event.target.classList.contains('button1')
+  //     ) {
+  //       const button = event.target;
+  //       const newButton = button.cloneNode(true) as HTMLElement;
+  //       button.parentNode!.replaceChild(newButton, button);
+
+  //       const container = newButton.closest('.image-with-buttons');
+  //       if (container) {
+  //         container.classList.add('class1');
+  //       }
+  //     }
+  //   });
+  // }
+
+  @ViewChild('overlay', { static: false }) overlay!: ElementRef;
   @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
   private hideOverlayTimeout: any;
 

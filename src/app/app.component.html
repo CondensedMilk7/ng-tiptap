@@ -28,11 +28,12 @@
       <div nz-col nzSpan="24">
         <div class="editor" *ngIf="!isEditorEnabled">
           <!-- editor code here -->
-          <tiptap-editor #tiptapEditor (click)="editorContentClick($event)"
+          <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)"
           (mouseleave)="editorContentMouseleave($event)" class="editor" appCustomStyles
           [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
           (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
+          
         </div>
         <div class="static-styles" *ngIf="isEditorEnabled">
           <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">

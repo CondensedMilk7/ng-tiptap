@@ -161,4 +161,8 @@ export class EditorButtonsService {
   addMark(editor: Editor) {
     editor.chain().focus().toggleMark('highlight').run();
   }
+
+  testing() {
+    console.log('testing');
+  }
 }
