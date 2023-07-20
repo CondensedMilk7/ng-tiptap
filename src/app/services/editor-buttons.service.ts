@@ -170,6 +170,14 @@ export class EditorButtonsService {
     editor.chain().focus().toggleMark('highlight').run();
   }
 
+  goBack(editor: Editor) {
+    editor.chain().focus().undo().run();
+  }
+
+  goForward(editor: Editor) {
+    editor.chain().focus().redo().run();
+  }
+
   testing() {
     console.log('testing');
   }

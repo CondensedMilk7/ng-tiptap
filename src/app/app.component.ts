@@ -12,7 +12,6 @@ import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
-
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { CourseArticleConfig, IThemeStyles } from './custom-styles.model';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
@@ -43,7 +42,7 @@ import Youtube from '@tiptap/extension-youtube';
 import Highlight from '@tiptap/extension-highlight';
 import { ImageWithButtons } from './custom-image';
 import { Gapcursor } from '@tiptap/extension-gapcursor';
-
+import History from '@tiptap/extension-history';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -119,6 +118,8 @@ export class AppComponent implements OnDestroy {
   @ViewChild('strikeButton') strikeButton!: ElementRef;
   @ViewChild('orderedListButton') orderedListButton!: ElementRef;
   @ViewChild('unorderedListButton') unorderedListButton!: ElementRef;
+  @ViewChild('undoButton') undoButton!: ElementRef;
+  @ViewChild('redoButton') redoButton!: ElementRef;
 
   // Table Buttons
   @ViewChild('tableButton') tableButton!: ElementRef;
@@ -188,6 +189,14 @@ export class AppComponent implements OnDestroy {
         this.modalService,
         this.message
       );
+    });
+
+    this.undoButton.nativeElement.addEventListener('click', () => {
+      this.editorButtonService.goBack(this.editor);
+    });
+
+    this.redoButton.nativeElement.addEventListener('click', () => {
+      this.editorButtonService.goForward(this.editor);
     });
 
     this.tableDeleteTableButton.nativeElement.addEventListener('click', () => {
