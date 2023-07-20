@@ -30,6 +30,7 @@ import { VideoModalComponent } from './video-modal/video-modal.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageComponent } from './image/image.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 registerLocaleData(en);
 
@@ -64,6 +65,7 @@ registerLocaleData(en);
     NzMessageModule,
     NzGridModule,
     NzSwitchModule,
+    NzIconModule,
     ImageCropperModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

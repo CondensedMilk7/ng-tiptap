@@ -130,6 +130,8 @@ export class AppComponent implements OnDestroy {
   @ViewChild('videoButton') videoButton!: ElementRef;
   @ViewChild('CustomButton') CustomButton!: ElementRef;
   @ViewChild('markButton') markButton!: ElementRef;
+  @ViewChild('mergeCelss') mergeCelss!: ElementRef;
+  @ViewChild('splitCelss') splitCelss!: ElementRef;
 
   ngAfterViewInit(): void {
     this.h1Button.nativeElement.addEventListener('click', () => {
@@ -216,59 +218,14 @@ export class AppComponent implements OnDestroy {
       this.editorButtonService.addMark(this.editor);
     });
 
-    // this.setupMutationObserver();
+    this.mergeCelss.nativeElement.addEventListener('click', () => {
+      this.editorButtonService.mergeCells(this.editor);
+    });
+
+    this.splitCelss.nativeElement.addEventListener('click', () => {
+      this.editorButtonService.splitCell(this.editor);
+    });
   }
-
-  // setupMutationObserver() {
-  //   const targetNode = document.getElementById('tiptapEditor'); // your editor id
-
-  //   if (!targetNode) {
-  //     console.error('Editor not found');
-  //     return;
-  //   }
-
-  //   const observerOptions = {
-  //     childList: true,
-  //     attributes: true,
-  //     subtree: true, // Set to true if you also want to observe the descendants of the target
-  //   };
-
-  //   const observer = new MutationObserver((mutations, observer) => {
-  //     // Check if new nodes were added
-  //     mutations.forEach((mutation) => {
-  //       if (mutation.addedNodes.length > 0) {
-  //         this.setupButtonEventListeners();
-  //       }
-  //     });
-  //   });
-
-  //   observer.observe(targetNode, observerOptions);
-  // }
-
-  // setupButtonEventListeners() {
-  //   const container = document.getElementById('tiptapEditor'); // your editor id
-
-  //   if (!container) {
-  //     console.error('Editor container not found');
-  //     return;
-  //   }
-
-  //   container.addEventListener('click', (event) => {
-  //     if (
-  //       event.target instanceof HTMLElement &&
-  //       event.target.classList.contains('button1')
-  //     ) {
-  //       const button = event.target;
-  //       const newButton = button.cloneNode(true) as HTMLElement;
-  //       button.parentNode!.replaceChild(newButton, button);
-
-  //       const container = newButton.closest('.image-with-buttons');
-  //       if (container) {
-  //         container.classList.add('class1');
-  //       }
-  //     }
-  //   });
-  // }
 
   @ViewChild('overlay', { static: false }) overlay!: ElementRef;
   @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
@@ -299,9 +256,8 @@ export class AppComponent implements OnDestroy {
         overlay.style.left = `${tableLeft}px`;
         overlay.style.top = `${tableTop}px`;
 
-        if (overlay.style.display == 'block') {
-          overlay.style.display = 'none';
-        } else {
+        // Changed condition: Only set display to block, never hide it
+        if (overlay.style.display != 'block') {
           overlay.style.display = 'block';
         }
       }

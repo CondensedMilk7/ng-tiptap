@@ -141,6 +141,14 @@ export class EditorButtonsService {
     editor.chain().focus().deleteColumn().run();
   }
 
+  mergeCells(editor: Editor): void {
+    editor.chain().focus().mergeCells().run();
+  }
+
+  splitCell(editor: Editor): void {
+    editor.chain().focus().splitCell().run();
+  }
+
   addVideo(editor: Editor, modalService: NzModalService): void {
     const modal = modalService.create({
       nzContent: VideoModalComponent,

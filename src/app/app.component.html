@@ -8,20 +8,20 @@
     <div class="editor-wrapper">
       <div class="button_box" *ngIf="!isEditorEnabled">
         <div class="button-group">
-          <button #h1Button class="editor-btn"><i class="fas fa-heading"></i> H1</button>
-          <button #h2Button class="editor-btn"><i class="fas fa-heading"></i> H2</button>
-          <button #h3Button class="editor-btn"><i class="fas fa-heading"></i> H3</button>
-          <button #blockquoteButton class="editor-btn"><i class="fas fa-quote-left"></i> Quote</button>
-          <button #markButton id="markButton" class="editor-btn"><i class="fas fa-highlighter"></i> Mark</button>
-          <button #codeButton class="editor-btn"><i class="fas fa-code"></i> Code</button>
-          <button #imageButton class="editor-btn"><i class="fas fa-image"></i> Image</button>
-          <button #LinkButton class="editor-btn"><i class="fas fa-link"></i> Link</button>
-          <button #boldButton class="editor-btn"><i class="fas fa-bold"></i> B</button>
-          <button #italicButton class="editor-btn"><i class="fas fa-italic"></i> I</button>
-          <button #unorderedListButton class="editor-btn"><i class="fas fa-list-ul"></i> UL</button>
-          <button #orderedListButton class="editor-btn"><i class="fas fa-list-ol"></i> OL</button>
-          <button #videoButton class="editor-btn"><i class="fas fa-video"></i> Video</button>
-          <button #tableButton class="editor-btn"><i class="fas fa-table"></i> Table</button>
+          <button #h1Button class="editor-btn"><img src="../assets/icons8-h1-30 (1).png" alt=""></button>
+          <button #h2Button class="editor-btn"><img src="../assets/icons8-h2-30.png" alt=""></button>
+          <button #h3Button class="editor-btn"><img src="../assets/icons8-h3-30.png" alt=""></button>
+          <button #blockquoteButton class="editor-btn"><i class="fas fa-quote-left"></i></button>
+          <button #markButton id="markButton" class="editor-btn"><i class="fas fa-highlighter"></i></button>
+          <button #codeButton class="editor-btn"><i class="fas fa-code"></i></button>
+          <button #imageButton class="editor-btn"><i class="fas fa-image"></i></button>
+          <button #LinkButton class="editor-btn"><i class="fas fa-link"></i></button>
+          <button #boldButton class="editor-btn"><i class="fas fa-bold"></i></button>
+          <button #italicButton class="editor-btn"><i class="fas fa-italic"></i></button>
+          <button #unorderedListButton class="editor-btn"><i class="fas fa-list-ul"></i></button>
+          <button #orderedListButton class="editor-btn"><i class="fas fa-list-ol"></i></button>
+          <button #videoButton class="editor-btn"><i class="fas fa-video"></i></button>
+          <button #tableButton class="editor-btn"><i class="fas fa-table"></i></button>
         </div>
       </div>
 
@@ -553,9 +553,11 @@
 </nz-modal>
 
 <div #overlay id="overlay" style="display: none; position: absolute;" (mouseleave)="onOverlayMouseLeave($event)">
-  <button #tableAddRowButton class="overlay-btn"><i class="fas fa-plus"></i></button>
-  <button #tableAddColumnButton class="overlay-btn"><i class="fas fa-columns"></i></button>
-  <button #tableDeleteRowButton class="overlay-btn"><i class="fas fa-trash-alt"></i></button>
-  <button #tableDeleteColumnButton class="overlay-btn"><i class="fas fa-trash-alt"></i></button>
+  <button #tableAddRowButton class="overlay-btn"><span nz-icon nzType="insert-row-below" nzTheme="outline"></span></button>
+  <button #tableAddColumnButton class="overlay-btn"><span nz-icon nzType="insert-row-right" nzTheme="outline"></span></button>
+  <button #tableDeleteRowButton class="overlay-btn"><span nz-icon nzType="delete-row" nzTheme="outline"></span></button>
+  <button #tableDeleteColumnButton class="overlay-btn"><span nz-icon nzType="delete-column" nzTheme="outline"></span></button>
+  <button #mergeCelss class="overlay-btn"><span nz-icon nzType="merge-cells" nzTheme="outline"></span></button>
+  <button #splitCelss class="overlay-btn"><span nz-icon nzType="split-cells" nzTheme="outline"></span></button>
   <button #tableDeleteTableButton class="overlay-btn"><i class="fas fa-trash-alt"></i></button>
 </div>
