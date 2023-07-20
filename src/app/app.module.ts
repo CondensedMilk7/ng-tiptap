@@ -31,6 +31,7 @@ import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageComponent } from './image/image.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 registerLocaleData(en);
 
@@ -67,6 +68,7 @@ registerLocaleData(en);
     NzSwitchModule,
     NzIconModule,
     ImageCropperModule,
+    NzDividerModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
