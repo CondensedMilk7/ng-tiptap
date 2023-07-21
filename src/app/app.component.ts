@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
@@ -40,7 +40,7 @@ import { defaultFontFamilies, loadFont } from './data/font-family.options';
 import { EditorButtonsService } from './services/editor-buttons.service';
 import Youtube from '@tiptap/extension-youtube';
 import Highlight from '@tiptap/extension-highlight';
-import { ImageWithButtons } from './custom-image';
+import { ImageComponentExtension } from './custom-image';
 import { Gapcursor } from '@tiptap/extension-gapcursor';
 import History from '@tiptap/extension-history';
 @Component({
@@ -98,7 +98,8 @@ export class AppComponent implements OnDestroy {
       Youtube.configure({}),
       Gapcursor,
       Highlight.configure({}),
-      ImageWithButtons,
+      ImageComponentExtension(this.injector),
+
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
@@ -133,6 +134,8 @@ export class AppComponent implements OnDestroy {
   @ViewChild('markButton') markButton!: ElementRef;
   @ViewChild('mergeCelss') mergeCelss!: ElementRef;
   @ViewChild('splitCelss') splitCelss!: ElementRef;
+  // @ViewChild('getHtml') getHtml!: ElementRef;
+
 
   ngAfterViewInit(): void {
     this.h1Button.nativeElement.addEventListener('click', () => {
@@ -146,6 +149,10 @@ export class AppComponent implements OnDestroy {
     this.h3Button.nativeElement.addEventListener('click', () => {
       this.editorButtonService.applyHeading(this.editor, 3);
     });
+
+    // this.getHtml.nativeElement.addEventListener('click', () => {
+    //   this.editorButtonService.getHtml(this.editor);
+    // });
 
     this.blockquoteButton.nativeElement.addEventListener('click', () => {
       this.editorButtonService.applyBlockquote(this.editor);
@@ -460,7 +467,9 @@ export class AppComponent implements OnDestroy {
     private fb: NonNullableFormBuilder,
     private modalService: NzModalService,
     public message: NzMessageService,
-    public editorButtonService: EditorButtonsService
+    public editorButtonService: EditorButtonsService,
+    private injector: Injector
+
   ) {}
   // * Form Group
   customStyles = this.fb.group({

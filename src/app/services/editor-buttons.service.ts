@@ -39,7 +39,7 @@ export class EditorButtonsService {
           .chain()
           .focus()
           .insertContent({
-            type: 'imageWithButtons',
+            type: 'img',
             attrs: {
               src: base64,
             },
@@ -176,6 +176,11 @@ export class EditorButtonsService {
 
   goForward(editor: Editor) {
     editor.chain().focus().redo().run();
+  }
+
+  getHtml(editor: Editor) {
+    const html = editor.getJSON();
+    console.log(html);
   }
 
   testing() {

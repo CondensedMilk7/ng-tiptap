@@ -1,30 +1,35 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 import { EditorButtonsService } from '../services/editor-buttons.service';
+import { AngularNodeViewComponent } from 'ngx-tiptap';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-image-component',
   styleUrls: ['./image.component.less'],
   templateUrl: './image.component.html',
 })
-export class ImageComponent {
-  constructor(private _buttonService: EditorButtonsService) {}
+export class ImageComponent extends AngularNodeViewComponent {
+  constructor(private _buttonService: EditorButtonsService, private modalService: NzModalService) {
+    super();
+  }
+
+  showButtons = false;
+  alignment = '';
 
   @Input() src!: string;
-  @Output() action1 = new EventEmitter<void>();
-  @Output() action2 = new EventEmitter<void>();
-  @Output() action3 = new EventEmitter<void>();
 
-  imgClass = '';
 
-  onAction1() {
-    this._buttonService.testing();
+  @HostListener('click') onHostClick() {
+    console.log('Host element clicked');
   }
 
-  onAction2() {
-    this._buttonService.testing();
-  }
-
-  onAction3() {
-    this._buttonService.testing();
+  function(){
+    this._buttonService.applyImage(this.editor, this.modalService);
   }
 }

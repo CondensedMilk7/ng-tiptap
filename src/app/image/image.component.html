@@ -1,8 +1,12 @@
-<!-- <div class="image-container">
-    <img [src]="src" [class]="imgClass" alt="image" />
-    <div class="button-overlay">
-        <button (click)="onAction1()">Button 1</button>
-        <button (click)="onAction2()">Button 2</button>
-        <button (click)="onAction3()">Button 3</button>
+<div class="image-container" [class.align-left]="alignment === 'left'" [class.align-center]="alignment === 'center'"
+  [class.align-right]="alignment === 'right'" (mouseover)="showButtons = true" (mouseout)="showButtons = false">
+  <div class="img-wrapper">
+    <img [src]="node.attrs['src']" />
+    <div class="buttons" [style.visibility]="showButtons ? 'visible' : 'hidden'">
+      <button (click)="alignment = 'left'">Button 1</button>
+      <button (click)="alignment = 'center'">Button 2</button>
+      <button (click)="alignment = 'right'">Button 3</button>
+      <button (click)="function()">Edit</button>
     </div>
-</div> -->
+  </div>
+</div>

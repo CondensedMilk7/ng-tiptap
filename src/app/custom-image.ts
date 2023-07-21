@@ -1,69 +1,80 @@
-import { Node } from '@tiptap/core';
+import { Injector, inject } from '@angular/core';
+import { Node, mergeAttributes } from '@tiptap/core';
+import { EditorButtonsService } from './services/editor-buttons.service';
+import { AngularNodeViewRenderer } from 'ngx-tiptap';
+import { ImageComponent } from './image/image.component';
 
-export const ImageWithButtons = Node.create({
-  name: 'imageWithButtons',
+export const ImageComponentExtension = (injector: Injector): Node => {
+  return Node.create({
+    name: 'img',
 
-  group: 'block',
+    group: 'block',
 
-  inline: false,
+    inline: false,
 
-  atom: true,
+    atom: true,
 
-  addAttributes() {
-    return {
-      src: {
-        default: null,
-      },
-    };
-  },
+    addAttributes() {
+      return {
+        src: {
+          default: null,
+        },
+      };
+    },
 
-  parseHTML() {
-    return [
-      {
-        tag: 'div.image-with-buttons',
-      },
-    ];
-  },
+    parseHTML() {
+      return [
+        {
+          tag: 'img',
+        },
+      ];
+    },
 
-  renderHTML({ node }) {
-    const imgElement = document.createElement('img');
-    imgElement.src = node.attrs['src'];
-    imgElement.className = 'image-button-img';
+    addNodeView() {
+      return AngularNodeViewRenderer(ImageComponent, { injector });
+    },
 
-    const button1Element = document.createElement('button');
-    button1Element.className = 'button1';
-    button1Element.textContent = 'Right';
+    renderHTML({ node, HTMLAttributes }) {
+      return ['img', mergeAttributes(HTMLAttributes)];
+      // const imgElement = document.createElement('img');
+      // imgElement.src = node.attrs['src'];
+      // imgElement.className = 'image-button-img';
 
-    const button2Element = document.createElement('button');
-    button2Element.className = 'button2';
-    button2Element.textContent = 'Left';
+      // const button1Element = document.createElement('button');
+      // button1Element.className = 'button1';
+      // button1Element.textContent = 'Right';
 
-    const button3Element = document.createElement('button');
-    button3Element.className = 'button3';
-    button3Element.textContent = 'Center';
+      // const button2Element = document.createElement('button');
+      // button2Element.className = 'button2';
+      // button2Element.textContent = 'Left';
 
-    const containerElement = document.createElement('div');
-    containerElement.className = 'image-with-buttons';
-    containerElement.appendChild(imgElement);
-    containerElement.appendChild(button1Element);
-    containerElement.appendChild(button2Element);
-    containerElement.appendChild(button3Element);
+      // const button3Element = document.createElement('button');
+      // button3Element.className = 'button3';
+      // button3Element.textContent = 'Center';
 
-    button1Element.addEventListener('click', () => {
-      containerElement.classList.remove('class2', 'class3');
-      containerElement.classList.toggle('class1');
-    });
+      // const containerElement = document.createElement('div');
+      // containerElement.className = 'image-with-buttons';
+      // containerElement.appendChild(imgElement);
+      // containerElement.appendChild(button1Element);
+      // containerElement.appendChild(button2Element);
+      // containerElement.appendChild(button3Element);
 
-    button2Element.addEventListener('click', () => {
-      containerElement.classList.remove('class1', 'class3');
-      containerElement.classList.toggle('class2');
-    });
+      // button1Element.addEventListener('click', () => {
+      //   containerElement.classList.remove('class2', 'class3');
+      //   containerElement.classList.toggle('class1');
+      // });
 
-    button3Element.addEventListener('click', () => {
-      containerElement.classList.remove('class1', 'class2');
-      containerElement.classList.toggle('class3');
-    });
+      // button2Element.addEventListener('click', () => {
+      //   containerElement.classList.remove('class1', 'class3');
+      //   containerElement.classList.toggle('class2');
+      // });
 
-    return containerElement;
-  },
-});
+      // button3Element.addEventListener('click', () => {
+      //   containerElement.classList.remove('class1', 'class2');
+      //   containerElement.classList.toggle('class3');
+      // });
+
+      // return containerElement;
+    },
+  });
+};

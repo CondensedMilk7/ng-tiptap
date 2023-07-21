@@ -1,0 +1,40 @@
+.image-container {
+  display: flex;
+  width: 100%;
+}
+
+.img-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.image-container.align-left {
+  justify-content: flex-start;
+}
+
+.image-container.align-center {
+  justify-content: center;
+}
+
+.image-container.align-right {
+  justify-content: flex-end;
+}
+
+.img-wrapper img {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.img-wrapper .buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+}
