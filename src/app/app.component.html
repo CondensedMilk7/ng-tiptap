@@ -8,23 +8,38 @@
     <div class="editor-wrapper">
       <div class="button_box" *ngIf="!isEditorEnabled">
         <div class="button-group">
-          <button #h1Button class="editor-btn"><img src="../assets/icons8-h1-30 (1).png" alt=""></button>
-          <button #h2Button class="editor-btn"><img src="../assets/icons8-h2-30.png" alt=""></button>
-          <button #h3Button class="editor-btn"><img src="../assets/icons8-h3-30.png" alt=""></button>
-          <button #blockquoteButton class="editor-btn"><i class="fas fa-quote-left"></i></button>
-          <button #markButton id="markButton" class="editor-btn"><i class="fas fa-highlighter"></i></button>
-          <button #codeButton class="editor-btn"><i class="fas fa-code"></i></button>
-          <button #imageButton class="editor-btn"><i class="fas fa-image"></i></button>
-          <button #LinkButton class="editor-btn"><i class="fas fa-link"></i></button>
-          <button #boldButton class="editor-btn"><i class="fas fa-bold"></i></button>
-          <button #italicButton class="editor-btn"><i class="fas fa-italic"></i></button>
-          <button #unorderedListButton class="editor-btn"><i class="fas fa-list-ul"></i></button>
-          <button #orderedListButton class="editor-btn"><i class="fas fa-list-ol"></i></button>
-          <button #videoButton class="editor-btn"><i class="fas fa-video"></i></button>
-          <button #tableButton class="editor-btn"><i class="fas fa-table"></i></button>
-          <button #undoButton class="editor-btn"><span nz-icon nzType="undo" nzTheme="outline"></span></button>
-          <button #redoButton class="editor-btn"><span nz-icon nzType="redo" nzTheme="outline"></span></button>
-          <!-- <button #getHtml>HtmlCode</button> -->
+          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 1)"
+            imagePath="../assets/icons8-h1-30 (1).png"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 2)"
+            imagePath="../assets/icons8-h2-30.png"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 3)"
+            imagePath="../assets/icons8-h3-30.png"></app-editor-button>
+
+          <app-editor-button (onClick)="editorButtonService.applyBlockquote(editor)"
+            iconClass="fas fa-quote-left"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.addMark(editor)" id="markButton"
+            iconClass="fas fa-highlighter"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyCodeBlock(editor)"
+            iconClass="fas fa-code"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyImage(editor, modalService)"
+            iconClass="fas fa-image"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyLink(editor, modalService, message)"
+            iconClass="fas fa-link"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyBold(editor)"
+            iconClass="fas fa-bold"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyItalic(editor)"
+            iconClass="fas fa-italic"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyBulletList(editor)"
+            iconClass="fas fa-list-ul"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyOrderedList(editor)"
+            iconClass="fas fa-list-ol"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.addVideo(editor, modalService)"
+            iconClass="fas fa-video"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.applyTable(editor, modalService, message)"
+            iconClass="fas fa-table"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.goBack(editor)" iconClass="fa fa-undo"></app-editor-button>
+          <app-editor-button (onClick)="editorButtonService.goForward(editor)"
+            iconClass="fa fa-redo"></app-editor-button>
         </div>
       </div>
 
@@ -556,14 +571,18 @@
 </nz-modal>
 
 <div #overlay id="overlay" style="display: none; position: absolute;" (mouseleave)="onOverlayMouseLeave($event)">
-  <button #tableAddRowButton class="overlay-btn"><span nz-icon nzType="insert-row-below"
-      nzTheme="outline"></span></button>
-  <button #tableAddColumnButton class="overlay-btn"><span nz-icon nzType="insert-row-right"
-      nzTheme="outline"></span></button>
-  <button #tableDeleteRowButton class="overlay-btn"><span nz-icon nzType="delete-row" nzTheme="outline"></span></button>
-  <button #tableDeleteColumnButton class="overlay-btn"><span nz-icon nzType="delete-column"
-      nzTheme="outline"></span></button>
-  <button #mergeCelss class="overlay-btn"><span nz-icon nzType="merge-cells" nzTheme="outline"></span></button>
-  <button #splitCelss class="overlay-btn"><span nz-icon nzType="split-cells" nzTheme="outline"></span></button>
-  <button #tableDeleteTableButton class="overlay-btn"><i class="fas fa-trash-alt"></i></button>
+  <app-overlay-button iconType="insert-row-below" nzTheme="outline"
+    (onButtonClick)="editorButtonService.addRowAfter(editor)"></app-overlay-button>
+  <app-overlay-button iconType="insert-row-right" nzTheme="outline"
+    (onButtonClick)="editorButtonService.addColumnAfter(editor)"></app-overlay-button>
+  <app-overlay-button iconType="delete-row" nzTheme="outline"
+    (onButtonClick)="editorButtonService.deleteRow(editor)"></app-overlay-button>
+  <app-overlay-button iconType="delete-column" nzTheme="outline"
+    (onButtonClick)="editorButtonService.deleteColumn(editor)"></app-overlay-button>
+  <app-overlay-button iconType="merge-cells" nzTheme="outline"
+    (onButtonClick)="editorButtonService.mergeCells(editor)"></app-overlay-button>
+  <app-overlay-button iconType="split-cells" nzTheme="outline"
+    (onButtonClick)="editorButtonService.splitCell(editor)"></app-overlay-button>
+  <app-overlay-button iconClass="fas fa-trash-alt"
+    (onButtonClick)="editorButtonService.deleteTable(editor)"></app-overlay-button>
 </div>

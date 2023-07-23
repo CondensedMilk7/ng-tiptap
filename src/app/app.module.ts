@@ -32,6 +32,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageComponent } from './image/image.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { EditorButtonComponent } from './editor-button/editor-button.component';
+import { OverlayButtonComponent } from './overlay-button/overlay-button.component';
 
 registerLocaleData(en);
 
@@ -44,6 +46,8 @@ registerLocaleData(en);
     VideoModalComponent,
     ImageModalComponent,
     ImageComponent,
+    EditorButtonComponent,
+    OverlayButtonComponent,
   ],
   imports: [
     BrowserModule,

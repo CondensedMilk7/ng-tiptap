@@ -110,142 +110,7 @@ export class AppComponent implements OnDestroy {
       '<P>I think where I am not, therefore I am where I do not think.</P>',
   });
 
-  // Imp: Reference to the buttons
-  @ViewChild('h1Button') h1Button!: ElementRef;
-  @ViewChild('h2Button') h2Button!: ElementRef;
-  @ViewChild('h3Button') h3Button!: ElementRef;
-  @ViewChild('blockquoteButton') blockquoteButton!: ElementRef;
-  @ViewChild('codeButton') codeButton!: ElementRef;
-  @ViewChild('imageButton') imageButton!: ElementRef;
-  @ViewChild('LinkButton') LinkButton!: ElementRef;
-  @ViewChild('boldButton') boldButton!: ElementRef;
-  @ViewChild('italicButton') italicButton!: ElementRef;
-  @ViewChild('underlineButton') underlineButton!: ElementRef;
-  @ViewChild('strikeButton') strikeButton!: ElementRef;
-  @ViewChild('orderedListButton') orderedListButton!: ElementRef;
-  @ViewChild('unorderedListButton') unorderedListButton!: ElementRef;
-  @ViewChild('undoButton') undoButton!: ElementRef;
-  @ViewChild('redoButton') redoButton!: ElementRef;
-
-  // Table Buttons
-  @ViewChild('tableButton') tableButton!: ElementRef;
-  @ViewChild('tableDeleteTableButton') tableDeleteTableButton!: ElementRef;
-  @ViewChild('tableDeleteRowButton') tableDeleteRowButton!: ElementRef;
-  @ViewChild('tableDeleteColumnButton') tableDeleteColumnButton!: ElementRef;
-  @ViewChild('tableAddRowButton') tableAddRowButton!: ElementRef;
-  @ViewChild('tableAddColumnButton') tableAddColumnButton!: ElementRef;
-  @ViewChild('videoButton') videoButton!: ElementRef;
-  @ViewChild('CustomButton') CustomButton!: ElementRef;
-  @ViewChild('markButton') markButton!: ElementRef;
-  @ViewChild('mergeCelss') mergeCelss!: ElementRef;
-  @ViewChild('splitCelss') splitCelss!: ElementRef;
-  // @ViewChild('getHtml') getHtml!: ElementRef;
-
-  ngAfterViewInit(): void {
-    this.h1Button.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyHeading(this.editor, 1);
-    });
-
-    this.h2Button.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyHeading(this.editor, 2);
-    });
-
-    this.h3Button.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyHeading(this.editor, 3);
-    });
-
-    // this.getHtml.nativeElement.addEventListener('click', () => {
-    //   this.editorButtonService.getHtml(this.editor);
-    // });
-
-    this.blockquoteButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyBlockquote(this.editor);
-    });
-
-    this.codeButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyCodeBlock(this.editor);
-    });
-
-    this.imageButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyImage(this.editor, this.modalService);
-    });
-
-    this.boldButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyBold(this.editor);
-    });
-
-    this.italicButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyItalic(this.editor);
-    });
-
-    this.unorderedListButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyBulletList(this.editor);
-    });
-
-    this.orderedListButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyOrderedList(this.editor);
-    });
-
-    this.tableButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyTable(
-        this.editor,
-        this.modalService,
-        this.message
-      );
-    });
-
-    this.LinkButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.applyLink(
-        this.editor,
-        this.modalService,
-        this.message
-      );
-    });
-
-    this.undoButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.goBack(this.editor);
-    });
-
-    this.redoButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.goForward(this.editor);
-    });
-
-    this.tableDeleteTableButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.deleteTable(this.editor);
-    });
-
-    this.tableDeleteRowButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.deleteRow(this.editor);
-    });
-
-    this.tableDeleteColumnButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.deleteColumn(this.editor);
-    });
-
-    this.tableAddRowButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.addRowAfter(this.editor);
-    });
-
-    this.tableAddColumnButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.addColumnAfter(this.editor);
-    });
-
-    this.videoButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.addVideo(this.editor, this.modalService);
-    });
-
-    this.markButton.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.addMark(this.editor);
-    });
-
-    this.mergeCelss.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.mergeCells(this.editor);
-    });
-
-    this.splitCelss.nativeElement.addEventListener('click', () => {
-      this.editorButtonService.splitCell(this.editor);
-    });
-  }
+  ngAfterViewInit(): void {}
 
   @ViewChild('overlay', { static: false }) overlay!: ElementRef;
   @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
@@ -303,26 +168,6 @@ export class AppComponent implements OnDestroy {
     this.hideOverlayTimeout = setTimeout(() => {
       this.overlay.nativeElement.style.display = 'none';
     }, 100); // 100ms delay before hiding the overlay
-  }
-
-  deleteTable(editor: Editor): void {
-    editor.chain().focus().deleteTable().run();
-  }
-
-  addRowAfter(editor: Editor): void {
-    editor.chain().focus().addRowAfter().run();
-  }
-
-  deleteRow(editor: Editor): void {
-    editor.chain().focus().deleteRow().run();
-  }
-
-  addColumnAfter(editor: Editor): void {
-    editor.chain().focus().addColumnAfter().run();
-  }
-
-  deleteColumn(editor: Editor): void {
-    editor.chain().focus().deleteColumn().run();
   }
 
   switchTheme(theme: string) {
@@ -469,7 +314,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private modalService: NzModalService,
+    public modalService: NzModalService,
     public message: NzMessageService,
     public editorButtonService: EditorButtonsService,
     private injector: Injector
