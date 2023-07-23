@@ -1,30 +1,35 @@
-.image-container {
+.img-wrapper {
+  position: relative;
   display: flex;
+  justify-content: center;
   width: 100%;
 }
 
-.img-wrapper {
-  position: relative;
-  display: inline-flex;
+.img-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center; /* default alignment */
+  align-items: center; /* align vertically in the middle */
 }
 
-.image-container.align-left {
-  justify-content: flex-start;
-}
-
-.image-container.align-center {
-  justify-content: center;
-}
-
-.image-container.align-right {
-  justify-content: flex-end;
-}
-
-.img-wrapper img {
-  display: block;
+.img-container img {
   width: auto;
   height: auto;
 }
+
+.img-container img.align-left {
+  margin-right: auto;
+}
+
+.img-container img.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-container img.align-right {
+  margin-left: auto;
+}
+
 
 .img-wrapper .buttons {
   position: absolute;
@@ -36,5 +41,10 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  visibility: hidden;
+  opacity: 0; /* Initially set opacity to 0 to hide the buttons */
+  transition: opacity 0.3s ease; /* Add a transition effect for smooth visibility */
+}
+
+.img-wrapper:hover .buttons {
+  opacity: 1; /* Show the buttons when hovering over the .img-wrapper */
 }

@@ -32,9 +32,9 @@
         <div class="editor" *ngIf="!isEditorEnabled">
           <!-- editor code here -->
           <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)"
-          (mouseleave)="editorContentMouseleave($event)" class="editor" appCustomStyles
-          [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
-          (ngModelChange)="onContentUpdated($event)">
+            (mouseleave)="editorContentMouseleave($event)" class="editor" appCustomStyles
+            [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
+            (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
 
         </div>
@@ -556,10 +556,13 @@
 </nz-modal>
 
 <div #overlay id="overlay" style="display: none; position: absolute;" (mouseleave)="onOverlayMouseLeave($event)">
-  <button #tableAddRowButton class="overlay-btn"><span nz-icon nzType="insert-row-below" nzTheme="outline"></span></button>
-  <button #tableAddColumnButton class="overlay-btn"><span nz-icon nzType="insert-row-right" nzTheme="outline"></span></button>
+  <button #tableAddRowButton class="overlay-btn"><span nz-icon nzType="insert-row-below"
+      nzTheme="outline"></span></button>
+  <button #tableAddColumnButton class="overlay-btn"><span nz-icon nzType="insert-row-right"
+      nzTheme="outline"></span></button>
   <button #tableDeleteRowButton class="overlay-btn"><span nz-icon nzType="delete-row" nzTheme="outline"></span></button>
-  <button #tableDeleteColumnButton class="overlay-btn"><span nz-icon nzType="delete-column" nzTheme="outline"></span></button>
+  <button #tableDeleteColumnButton class="overlay-btn"><span nz-icon nzType="delete-column"
+      nzTheme="outline"></span></button>
   <button #mergeCelss class="overlay-btn"><span nz-icon nzType="merge-cells" nzTheme="outline"></span></button>
   <button #splitCelss class="overlay-btn"><span nz-icon nzType="split-cells" nzTheme="outline"></span></button>
   <button #tableDeleteTableButton class="overlay-btn"><i class="fas fa-trash-alt"></i></button>

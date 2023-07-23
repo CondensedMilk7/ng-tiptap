@@ -42,6 +42,7 @@ export class EditorButtonsService {
             type: 'img',
             attrs: {
               src: base64,
+              alignment: 'left',
             },
           })
           .run();

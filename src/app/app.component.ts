@@ -1,4 +1,10 @@
-import { Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
@@ -99,7 +105,6 @@ export class AppComponent implements OnDestroy {
       Gapcursor,
       Highlight.configure({}),
       ImageComponentExtension(this.injector),
-
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
@@ -135,7 +140,6 @@ export class AppComponent implements OnDestroy {
   @ViewChild('mergeCelss') mergeCelss!: ElementRef;
   @ViewChild('splitCelss') splitCelss!: ElementRef;
   // @ViewChild('getHtml') getHtml!: ElementRef;
-
 
   ngAfterViewInit(): void {
     this.h1Button.nativeElement.addEventListener('click', () => {
@@ -469,7 +473,6 @@ export class AppComponent implements OnDestroy {
     public message: NzMessageService,
     public editorButtonService: EditorButtonsService,
     private injector: Injector
-
   ) {}
   // * Form Group
   customStyles = this.fb.group({
