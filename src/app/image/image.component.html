@@ -2,11 +2,11 @@
   <div class="img-container">
     <img [src]="node.attrs['src']" [class]="'align-' + node.attrs['alignment']" />
   </div>
-  <div class="buttons" *ngIf="isSelected()" [style.visibility]="showButtons ? 'visible' : 'hidden'">
+  <div class="buttons" [style.visibility]="showButtons ? 'visible' : 'hidden'">
     <button (click)="setAlignment('left')">Button 1</button>
     <button (click)="setAlignment('center')">Button 2</button>
     <button (click)="setAlignment('right')">Button 3</button>
-    <button (click)="function()">Edit</button>
+    <button *ngIf="isSelected()" (click)="function()">Edit</button>
   </div>
 
 </div>
