@@ -8,51 +8,22 @@
     <div class="editor-wrapper">
       <div class="button_box" *ngIf="!isEditorEnabled">
         <div class="button-group">
-          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 1)"
-            imagePath="../assets/icons8-h1-30 (1).png"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 2)"
-            imagePath="../assets/icons8-h2-30.png"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 3)"
-            imagePath="../assets/icons8-h3-30.png"></app-editor-button>
-
-          <app-editor-button (onClick)="editorButtonService.applyBlockquote(editor)"
-            iconClass="fas fa-quote-left"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.addMark(editor)" id="markButton"
-            iconClass="fas fa-highlighter"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyCodeBlock(editor)"
-            iconClass="fas fa-code"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyImage(editor, modalService)"
-            iconClass="fas fa-image"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyLink(editor, modalService, message)"
-            iconClass="fas fa-link"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyBold(editor)"
-            iconClass="fas fa-bold"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyItalic(editor)"
-            iconClass="fas fa-italic"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyBulletList(editor)"
-            iconClass="fas fa-list-ul"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyOrderedList(editor)"
-            iconClass="fas fa-list-ol"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.addVideo(editor, modalService)"
-            iconClass="fas fa-video"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.applyTable(editor, modalService, message)"
-            iconClass="fas fa-table"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.goBack(editor)" iconClass="fa fa-undo"></app-editor-button>
-          <app-editor-button (onClick)="editorButtonService.goForward(editor)"
-            iconClass="fa fa-redo"></app-editor-button>
+          <app-toolbar *ngIf="!(isScrolling$ | async)" [editor]="editor"></app-toolbar>
         </div>
       </div>
 
       <div nz-col nzSpan="24">
         <div class="editor" *ngIf="!isEditorEnabled">
-          <!-- editor code here -->
+          <div class="toolbar-container">
+            <app-toolbar *ngIf="(isScrolling$ | async)" [editor]="editor"></app-toolbar>
+          </div>
           <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)"
             (mouseleave)="editorContentMouseleave($event)" class="editor" appCustomStyles
             [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
             (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
-
         </div>
+
         <div class="static-styles" *ngIf="isEditorEnabled">
           <div class="ProseMirror" appCustomStyles [config]="customStyles$ | async">
             <h1>H1 THIS IS HUGE TITLE OF ARTICLE</h1>
@@ -92,13 +63,10 @@
     </nz-collapse>
 
 
-
-
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <!-- Todo: Implementation Of Backend Service Adding Font -->
 
       <div formGroupName="elements">
-        <!-- ? ----  Divider ---- -->
         <nz-collapse>
           <nz-collapse-panel nzHeader="H1">
             <div formGroupName="h1" class="config-box">

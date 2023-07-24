@@ -34,6 +34,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { EditorButtonComponent } from './editor-button/editor-button.component';
 import { OverlayButtonComponent } from './overlay-button/overlay-button.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 registerLocaleData(en);
 
@@ -48,6 +49,7 @@ registerLocaleData(en);
     ImageComponent,
     EditorButtonComponent,
     OverlayButtonComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
