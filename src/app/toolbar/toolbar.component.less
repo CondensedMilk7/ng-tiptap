@@ -1,0 +1,24 @@
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  transition: all 0.5s ease; /* This line adds the smooth transition */
+  position: sticky; /* This line makes the toolbar sticky */
+  top: 25px; /* This line specifies the top position */
+  z-index: 999; /* This line ensures the toolbar is above all other content */
+}
+
+.button-group > * {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+.button-group.row {
+  flex-direction: row;
+}
+
+.button-group.column {
+  flex-direction: column;
+}

@@ -49,6 +49,7 @@ import Highlight from '@tiptap/extension-highlight';
 import { ImageComponentExtension } from './custom-image';
 import { Gapcursor } from '@tiptap/extension-gapcursor';
 import History from '@tiptap/extension-history';
+import { ScrollService } from './services/scroll.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -122,7 +123,6 @@ export class AppComponent implements OnDestroy {
     const target = event.target as HTMLElement;
     const tableWrappers = document.querySelectorAll('.tableWrapper');
 
-    // Get The Table Wrappers Here
     for (let i = 0; i < tableWrappers.length; i++) {
       const tableWrapper = tableWrappers[i];
 
@@ -141,7 +141,6 @@ export class AppComponent implements OnDestroy {
         overlay.style.left = `${tableLeft}px`;
         overlay.style.top = `${tableTop}px`;
 
-        // Changed condition: Only set display to block, never hide it
         if (overlay.style.display != 'block') {
           overlay.style.display = 'block';
         }
@@ -311,14 +310,18 @@ export class AppComponent implements OnDestroy {
   sizes = fontSizes;
   lineHeightOptions = lineHeightOptions;
   letterSpacingOptions = letterSpacingOptions;
+  isScrolling$: Observable<boolean>;
 
   constructor(
     private fb: NonNullableFormBuilder,
     public modalService: NzModalService,
     public message: NzMessageService,
     public editorButtonService: EditorButtonsService,
-    private injector: Injector
-  ) {}
+    private injector: Injector,
+    private scrollService: ScrollService
+  ) {
+    this.isScrolling$ = this.scrollService.isScrolling$;
+  }
   // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
@@ -416,7 +419,6 @@ export class AppComponent implements OnDestroy {
   );
 
   ngOnInit() {
-    // load saved custom styles from local storage if it exists, or use initial value otherwise
     const savedCustomStyles = localStorage.getItem('custom_styles');
     if (savedCustomStyles) {
       this.customStyles.setValue(JSON.parse(savedCustomStyles));
@@ -425,7 +427,6 @@ export class AppComponent implements OnDestroy {
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
 
-      // save custom styles to local storage when it changes
       localStorage.setItem(
         'custom_styles',
         JSON.stringify(this.customStyles.getRawValue())
@@ -434,7 +435,6 @@ export class AppComponent implements OnDestroy {
       this.quillStyle = this.customStyles.getRawValue();
     });
 
-    // Get The Value From Local Storage
     this.quillContent$ = of(localStorage.getItem('editor_content'));
 
     this.defaultFontFamilies.forEach(loadFont);
