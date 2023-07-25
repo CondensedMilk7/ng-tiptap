@@ -189,7 +189,6 @@ export class CustomStylesDirective implements OnChanges {
                 }
               });
 
-              // Apply the styles to the style element in the document head
               const styleContent = `.ProseMirror blockquote ${tagName} { ${css} }`;
               style!.textContent += styleContent;
             }
