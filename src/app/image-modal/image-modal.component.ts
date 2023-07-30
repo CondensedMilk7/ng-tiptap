@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { SecurityContext } from '@angular/core';
 
 @Component({
   selector: 'app-image-modal',
@@ -44,20 +45,49 @@ export class ImageModalComponent {
   }
 
   ngOnInit() {
-    const blob = this.dataURItoBlob(this.image);
+    const sanitizedSrc = this.image;
+    const actualSrc =
+      this.sanitizer.sanitize(SecurityContext.URL, sanitizedSrc) || '';
+    const blob = this.dataURItoBlob(actualSrc);
     const blobUrl = URL.createObjectURL(blob);
+
+    // Create an image object to get the dimensions
+    const img = new Image();
+    img.onload = () => {
+      // Use the width of the image
+      this.previewWidth = img.width;
+
+      // Set the resize settings
+      this.resizeSettings = { width: this.previewWidth };
+
+      // You may also want to force a rerender of the cropper
+      this.forceCropperRerender();
+    };
+    img.src = blobUrl;
 
     this.imageChangedEvent = {
       target: {
         files: [new File([blob], 'filename', { type: 'image/png' })],
       },
     };
-    console.log(this.imageChangedEvent);
   }
 
-  dataURItoBlob(dataURI: string) {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  dataURItoBlob(dataURI: any) {
+    // Unwrap the safe value
+    const actualDataURI =
+      this.sanitizer.sanitize(SecurityContext.URL, dataURI) || '';
+
+    console.log('actualDataURI before split:', actualDataURI); // Log the unwrapped dataURI
+
+    const parts = actualDataURI.split(',');
+    if (parts.length !== 2) {
+      throw new Error('Invalid data URI');
+    }
+    console.log('Base64 part:', parts[1]);
+
+    const byteString = atob(parts[1]);
+    const mimeString = parts[0].split(':')[1].split(';')[0];
+
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i++) {

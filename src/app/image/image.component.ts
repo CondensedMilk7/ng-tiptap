@@ -4,12 +4,14 @@ import {
   Output,
   EventEmitter,
   HostListener,
+  SecurityContext,
 } from '@angular/core';
 import { EditorButtonsService } from '../services/editor-buttons.service';
 import { AngularNodeViewComponent } from 'ngx-tiptap';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NodeSelection } from 'prosemirror-state';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-image-component',
@@ -19,7 +21,8 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
 export class ImageComponent extends AngularNodeViewComponent {
   constructor(
     private _buttonService: EditorButtonsService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private sanitizer: DomSanitizer
   ) {
     super();
   }
@@ -32,24 +35,27 @@ export class ImageComponent extends AngularNodeViewComponent {
   @HostListener('click') onHostClick() {
     this.selectNode();
   }
-
   edit() {
-    const src = this.node.attrs['src']; // Access the correct src value
-    console.log('src value in ImageComponent:', src); // Log it for debugging
+    const src = this.node.attrs['src'];
+    const actualSrc = this.sanitizer.sanitize(SecurityContext.URL, src); // Unwrap the SafeValue
 
-    const modal = this.modalService.create({
-      nzTitle: 'Edit Image',
-      nzContent: ImageModalComponent,
-      nzComponentParams: {
-        image: src, // Pass the correct src value
-      },
-    });
+    if (actualSrc) {
+      console.log(actualSrc);
 
-    modal.afterClose.subscribe((result) => {
-      if (result) {
-        this.updateImageSrc(result);
-      }
-    });
+      const modal = this.modalService.create({
+        nzTitle: 'Edit Image',
+        nzContent: ImageModalComponent,
+        nzComponentParams: {
+          image: actualSrc,
+        },
+      });
+
+      modal.afterClose.subscribe((result) => {
+        if (result) {
+          this.updateImageSrc(result);
+        }
+      });
+    }
   }
 
   updateImageSrc(newSrc: string) {
