@@ -2,17 +2,12 @@
   <input type="file" (change)="fileChangeEvent($event)" class="file-input" />
 
   <label for="preview-width">Preview Width: {{ previewWidth }}px</label>
-  <input type="range" id="preview-width" [ngModel]="previewWidth" (ngModelChange)="updateCropper($event)" min="100" max="600" class="slider" />
+  <input type="range" id="preview-width" [ngModel]="previewWidth" (ngModelChange)="updateCropper($event)" min="100"
+    max="600" class="slider" />
 
-  <image-cropper
-    *ngIf="showCropper"
-    [imageChangedEvent]="imageChangedEvent"
-    [maintainAspectRatio]="false"
-    [aspectRatio]="aspectRatio"
-    format="png"
-    [resizeToWidth]="resizeSettings.width"
-    (imageCropped)="imageCropped($event)"
-    class="image-cropper">
+  <image-cropper *ngIf="showCropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+    [aspectRatio]="aspectRatio" format="png" [resizeToWidth]="resizeSettings.width"
+    (imageCropped)="imageCropped($event)" class="image-cropper">
   </image-cropper>
 
 

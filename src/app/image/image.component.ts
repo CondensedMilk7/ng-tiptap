@@ -9,6 +9,7 @@ import { EditorButtonsService } from '../services/editor-buttons.service';
 import { AngularNodeViewComponent } from 'ngx-tiptap';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NodeSelection } from 'prosemirror-state';
+import { ImageModalComponent } from '../image-modal/image-modal.component';
 
 @Component({
   selector: 'app-image-component',
@@ -32,8 +33,35 @@ export class ImageComponent extends AngularNodeViewComponent {
     this.selectNode();
   }
 
-  function() {
-    this._buttonService.applyImage(this.editor, this.modalService);
+  edit() {
+    const src = this.node.attrs['src']; // Access the correct src value
+    console.log('src value in ImageComponent:', src); // Log it for debugging
+
+    const modal = this.modalService.create({
+      nzTitle: 'Edit Image',
+      nzContent: ImageModalComponent,
+      nzComponentParams: {
+        image: src, // Pass the correct src value
+      },
+    });
+
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        this.updateImageSrc(result);
+      }
+    });
+  }
+
+  updateImageSrc(newSrc: string) {
+    const { state, view } = this.editor;
+    const nodePos = this.getPos();
+    const node = state.doc.nodeAt(nodePos);
+
+    if (node) {
+      const newNode = node.type.create({ ...node.attrs, src: newSrc }); // Update the src attribute
+      const tr = state.tr.setNodeMarkup(nodePos, undefined, newNode.attrs);
+      view.dispatch(tr);
+    }
   }
 
   setAlignment(alignment: string) {
