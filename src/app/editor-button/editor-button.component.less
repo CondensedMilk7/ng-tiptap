@@ -1,22 +1,32 @@
 .editor-btn {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   font-size: 1rem;
-  background: #e4e4e4;
+  background: #f0f2f5;
   border: none;
-  border-radius: 4px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333;
-  transition: background 0.3s ease;
+  color: #444;
+  transition: background 0.2s ease;
 }
 
-/* Add margin to the icon inside the button */
-.editor-btn i {
-  margin: 0;
+.editor-btn:hover {
+  background: #e2e2e2;
+  color: #444;
 }
+
+.editor-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.editor-btn:hover img {
+  filter: none;
+}
+
 
 .editor-btn:hover {
   background: #636363;
@@ -40,4 +50,6 @@
 .editor-btn:hover img {
   filter: brightness(0) invert(1);
 }
+
+
 

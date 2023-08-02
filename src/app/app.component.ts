@@ -118,8 +118,6 @@ export class AppComponent implements OnDestroy {
   private hideOverlayTimeout: any;
 
   editorContentClick(event: MouseEvent) {
-    clearTimeout(this.hideOverlayTimeout);
-
     const target = event.target as HTMLElement;
     const tableWrappers = document.querySelectorAll('.tableWrapper');
 
@@ -136,7 +134,7 @@ export class AppComponent implements OnDestroy {
         const overlay = this.overlay.nativeElement;
 
         const tableLeft = rect!.left + window.pageXOffset;
-        const tableTop = rect!.top + window.pageYOffset + rect!.height;
+        const tableTop = rect!.top + window.pageYOffset - 50; // Subtract 50 pixels to move the overlay up
 
         overlay.style.left = `${tableLeft}px`;
         overlay.style.top = `${tableTop}px`;
@@ -148,25 +146,18 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  editorContentMouseleave(event: MouseEvent) {
-    this.hideOverlayTimeout = setTimeout(() => {
-      this.overlay.nativeElement.style.display = 'none';
-    }, 100);
-  }
-
-  @HostListener('mouseover', ['$event'])
-  onMouseOver(event: MouseEvent) {
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
 
-    if (this.overlay.nativeElement.contains(target)) {
-      clearTimeout(this.hideOverlayTimeout); // Clear hideOverlayTimeout if we're hovering over the overlay
-    }
-  }
-
-  onOverlayMouseLeave(event: MouseEvent) {
-    this.hideOverlayTimeout = setTimeout(() => {
+    // If the clicked element is not the overlay or within the overlay, and not a table, hide the overlay
+    if (
+      !this.overlay.nativeElement.contains(target) &&
+      target.nodeName !== 'TABLE' &&
+      !target.closest('table')
+    ) {
       this.overlay.nativeElement.style.display = 'none';
-    }, 100); // 100ms delay before hiding the overlay
+    }
   }
 
   switchTheme(theme: string) {

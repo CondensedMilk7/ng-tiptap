@@ -15,11 +15,10 @@
       <div nz-col nzSpan="24">
         <div class="editor" *ngIf="!isEditorEnabled">
           <div class="toolbar-container">
-            <app-toolbar *ngIf="(isScrolling$ | async)" [editor]="editor"></app-toolbar>
+            <!-- <app-toolbar *ngIf="(isScrolling$ | async)" [editor]="editor"></app-toolbar> -->
           </div>
-          <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)"
-            (mouseleave)="editorContentMouseleave($event)" class="editor" appCustomStyles
-            [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
+          <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)" class="editor"
+            appCustomStyles [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
             (ngModelChange)="onContentUpdated($event)">
           </tiptap-editor>
         </div>
@@ -533,7 +532,7 @@
   </div>
 </nz-modal>
 
-<div #overlay id="overlay" style="display: none; position: absolute;" (mouseleave)="onOverlayMouseLeave($event)">
+<div #overlay id="overlay" style="display: none; position: absolute;">
   <app-overlay-button iconType="insert-row-below" nzTheme="outline"
     (onButtonClick)="editorButtonService.addRowAfter(editor)"></app-overlay-button>
   <app-overlay-button iconType="insert-row-right" nzTheme="outline"

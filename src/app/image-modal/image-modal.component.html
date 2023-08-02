@@ -5,13 +5,15 @@
   <input type="range" id="preview-width" [ngModel]="previewWidth" (ngModelChange)="updateCropper($event)" min="100"
     max="600" class="slider" />
 
-  <image-cropper *ngIf="showCropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
-    [aspectRatio]="aspectRatio" format="png" [resizeToWidth]="resizeSettings.width"
-    (imageCropped)="imageCropped($event)" class="image-cropper">
-  </image-cropper>
+  <div class="wrap">
+    <image-cropper *ngIf="showCropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+      [aspectRatio]="aspectRatio" format="png" [resizeToWidth]="resizeSettings.width"
+      (imageCropped)="imageCropped($event)" class="image-cropper">
+    </image-cropper>
 
 
-  <img [src]="croppedImage" class="preview-image" [style.width.px]="previewWidth" />
+    <img [src]="croppedImage" class="preview-image" [style.width.px]="previewWidth" />
+  </div>
 
   <button nz-button nzType="primary" (click)="submitForm()" class="submit-button">Submit</button>
 </div>

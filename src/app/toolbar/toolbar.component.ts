@@ -12,7 +12,7 @@ import { throttleTime } from 'rxjs/operators';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.less'],
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent {
   @Input() editor!: Editor;
   isScrolling: boolean = false;
   scrollCheckInterval!: Subscription;
@@ -25,40 +25,40 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     public message: NzMessageService,
     private scrollService: ScrollService
   ) {
-    // Subscribe to the service
-    this.scrollService.isScrolling$.subscribe((scrolling) => {
-      this.isScrolling = scrolling;
-    });
+    // // Subscribe to the service
+    // this.scrollService.isScrolling$.subscribe((scrolling) => {
+    //   this.isScrolling = scrolling;
+    // });
   }
 
-  ngOnInit() {
-    //! This Was Going Into Infinity Loop Had To add some Complexity
-    //? All values here can be configured
-    this.scrollCheckInterval = fromEvent(window, 'scroll')
-      .pipe(throttleTime(100))
-      .subscribe(() => {
-        const tolerance = 50;
-        const isCurrentlyScrolling =
-          Math.abs(window.scrollY - this.lastScrollPosition) < tolerance;
+  // ngOnInit() {
+  //   //! This Was Going Into Infinity Loop Had To add some Complexity
+  //   //? All values here can be configured
+  //   this.scrollCheckInterval = fromEvent(window, 'scroll')
+  //     .pipe(throttleTime(100))
+  //     .subscribe(() => {
+  //       const tolerance = 50;
+  //       const isCurrentlyScrolling =
+  //         Math.abs(window.scrollY - this.lastScrollPosition) < tolerance;
 
-        if (isCurrentlyScrolling !== this.isScrolling) {
-          clearTimeout(this.scrollStopTimerId);
+  //       if (isCurrentlyScrolling !== this.isScrolling) {
+  //         clearTimeout(this.scrollStopTimerId);
 
-          this.scrollStopTimerId = setTimeout(() => {
-            this.scrollService.setScrolling(window.scrollY > 90);
-          }, 150);
-        }
+  //         this.scrollStopTimerId = setTimeout(() => {
+  //           this.scrollService.setScrolling(window.scrollY > 90);
+  //         }, 150);
+  //       }
 
-        this.lastScrollPosition = window.scrollY;
-      });
-  }
+  //       this.lastScrollPosition = window.scrollY;
+  //     });
+  // }
 
-  ngOnDestroy() {
-    if (this.scrollCheckInterval) {
-      this.scrollCheckInterval.unsubscribe();
-    }
-    if (this.scrollStopTimerId) {
-      clearTimeout(this.scrollStopTimerId);
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.scrollCheckInterval) {
+  //     this.scrollCheckInterval.unsubscribe();
+  //   }
+  //   if (this.scrollStopTimerId) {
+  //     clearTimeout(this.scrollStopTimerId);
+  //   }
+  // }
 }

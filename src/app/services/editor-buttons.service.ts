@@ -28,6 +28,7 @@ export class EditorButtonsService {
     const modal = modalService.create({
       nzContent: ImageModalComponent, // your image modal component here
       nzClosable: false,
+      nzStyle: { width: '70%', height: '800px' },
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });
 

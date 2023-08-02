@@ -1,17 +1,13 @@
 .button-group {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-  transition: all 0.5s ease; /* This line adds the smooth transition */
-  position: sticky; /* This line makes the toolbar sticky */
-  top: 25px; /* This line specifies the top position */
-  z-index: 999; /* This line ensures the toolbar is above all other content */
+  flex-wrap: wrap;
 }
 
 .button-group > * {
   margin-right: 10px;
-  margin-bottom: 10px;
   white-space: nowrap;
 }
 
@@ -21,4 +17,12 @@
 
 .button-group.column {
   flex-direction: column;
+}
+.button-sub-group {
+  display: flex;
+  margin-right: 10px;
+}
+
+.button-sub-group > * {
+  margin-right: 5px;
 }
