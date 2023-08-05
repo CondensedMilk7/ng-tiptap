@@ -28,7 +28,7 @@ export class EditorButtonsService {
     const modal = modalService.create({
       nzContent: ImageModalComponent, // your image modal component here
       nzClosable: false,
-      nzStyle: { width: '70%', height: '800px' },
+      nzStyle: { },
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });
 
@@ -183,6 +183,22 @@ export class EditorButtonsService {
   getHtml(editor: Editor) {
     const html = editor.getJSON();
     console.log(html);
+  }
+
+  addCustoMark(editor: Editor) {
+    editor
+      .chain()
+      .focus()
+      .toggleMark('highlightColor', { class: 'mark1' })
+      .run();
+  }
+
+  addCustoMark2(editor: Editor) {
+    editor
+      .chain()
+      .focus()
+      .toggleMark('highlightColor', { class: 'mark2' })
+      .run();
   }
 
   testing() {

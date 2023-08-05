@@ -26,6 +26,7 @@
   box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
   max-width: 300px;
 }
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -117,6 +118,7 @@ body {
 }
 
 .editor{
+  flex-direction: column;
   display: flex;
   .ProseMirror{
     width: 700px;
@@ -137,6 +139,10 @@ body {
 .ProseMirror{
   caret-color: black;
   min-height: 600px;
+
+  mark{
+    border-radius: 6px;
+  }
 }
 
 

@@ -6,16 +6,13 @@
     <nz-switch [(ngModel)]="isEditorEnabled" nzCheckedChildren="Editor" nzUnCheckedChildren="Static"
       (ngModelChange)="toggleEditorMode($event)"></nz-switch>
     <div class="editor-wrapper">
-      <div class="button_box" *ngIf="!isEditorEnabled">
-        <div class="button-group">
-          <app-toolbar *ngIf="!(isScrolling$ | async)" [editor]="editor"></app-toolbar>
-        </div>
-      </div>
+
 
       <div nz-col nzSpan="24">
         <div class="editor" *ngIf="!isEditorEnabled">
           <div class="toolbar-container">
             <!-- <app-toolbar *ngIf="(isScrolling$ | async)" [editor]="editor"></app-toolbar> -->
+                <app-toolbar *ngIf="!(isScrolling$ | async)" [editor]="editor"></app-toolbar>
           </div>
           <tiptap-editor id="tiptapEditor" #tiptapEditor (click)="editorContentClick($event)" class="editor"
             appCustomStyles [config]="customStyles$ | async" [editor]="editor" [ngModel]="quillContent$ | async"
@@ -449,6 +446,18 @@
         <nz-collapse>
           <nz-collapse-panel nzHeader="Mark Color">
             <div formGroupName="mark" class="config-box">
+              <div class="color-picker-box">
+                <label for="mark-color">Color</label>
+                <input id="mark-color" type="color" formControlName="backgroundColor" />
+              </div>
+            </div>
+            <div formGroupName=".mark1" class="config-box">
+              <div class="color-picker-box">
+                <label for="mark-color">Color</label>
+                <input id="mark-color" type="color" formControlName="backgroundColor" />
+              </div>
+            </div>
+            <div formGroupName=".mark2" class="config-box">
               <div class="color-picker-box">
                 <label for="mark-color">Color</label>
                 <input id="mark-color" type="color" formControlName="backgroundColor" />

@@ -99,10 +99,13 @@ export class ImageModalComponent {
   updateCropper(width: number) {
     this.previewWidth = width;
     this.resizeSettings = { width: this.previewWidth };
-    this.forceCropperRerender(); // Added this line
+    this.forceCropperRerender();
+  }
+  updateCropperOnMouseUp(event: any): void {
+    const width = event.target.valueAsNumber;
+    this.updateCropper(width);
   }
 
-  // Added this function
   forceCropperRerender() {
     this.showCropper = false;
     setTimeout(() => (this.showCropper = true), 0);

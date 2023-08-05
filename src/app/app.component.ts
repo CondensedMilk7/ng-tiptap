@@ -50,6 +50,7 @@ import { ImageComponentExtension } from './custom-image';
 import { Gapcursor } from '@tiptap/extension-gapcursor';
 import History from '@tiptap/extension-history';
 import { ScrollService } from './services/scroll.service';
+import { HighlightColorExtension } from './extensions/custom-mark1';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -104,6 +105,7 @@ export class AppComponent implements OnDestroy {
       TableHeader,
       Youtube.configure({}),
       Gapcursor,
+      HighlightColorExtension.configure({}),
       Highlight.configure({}),
       ImageComponentExtension(this.injector),
     ],
@@ -363,7 +365,7 @@ export class AppComponent implements OnDestroy {
         // ? Added here
         borderRadius: '0px',
         border: this.fb.group({
-          color: 'orange',
+          color: '#FFA500',
           style: 'solid',
           // ! As I Know There is No Border Support Here
           radius: '0px',
@@ -375,16 +377,22 @@ export class AppComponent implements OnDestroy {
       }),
 
       a: this.fb.group({
-        color: 'blue',
+        color: '#5200ff',
         fontFamily: 'serif',
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
       '.ProseMirror': this.fb.group({
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
+      }),
+      '.mark1': this.fb.group({
+        backgroundColor: '#ff0000',
+      }),
+      '.mark2': this.fb.group({
+        backgroundColor: '#800080',
       }),
       mark: this.fb.group({
-        backgroundColor: 'yellow',
+        backgroundColor: '#ffff00',
       }),
       img: this.fb.group({
         maxWidth: '100%',
@@ -392,7 +400,7 @@ export class AppComponent implements OnDestroy {
         margin: '0px',
         borderRadius: '0px',
         border: this.fb.group({
-          color: 'red',
+          color: '#ff0000',
           style: 'solid',
           radius: '0px', // change this to borderRadius
           width: '25px',
