@@ -64,8 +64,8 @@ export type ElementName =
   | 'blockquote'
   | '.ProseMirror'
   | 'img'
-  | 'mark1'
-  | 'mark2';
+  | '.mark1'
+  | '.mark2';
 
 export interface IThemeStyles {
   color: string;

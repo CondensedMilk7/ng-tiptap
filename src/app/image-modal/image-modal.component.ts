@@ -51,16 +51,12 @@ export class ImageModalComponent {
     const blob = this.dataURItoBlob(actualSrc);
     const blobUrl = URL.createObjectURL(blob);
 
-    // Create an image object to get the dimensions
     const img = new Image();
     img.onload = () => {
-      // Use the width of the image
       this.previewWidth = img.width;
 
-      // Set the resize settings
       this.resizeSettings = { width: this.previewWidth };
 
-      // You may also want to force a rerender of the cropper
       this.forceCropperRerender();
     };
     img.src = blobUrl;

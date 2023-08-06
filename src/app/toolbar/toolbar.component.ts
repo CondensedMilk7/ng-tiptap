@@ -6,6 +6,7 @@ import { EditorButtonsService } from '../services/editor-buttons.service';
 import { ScrollService } from '../services/scroll.service';
 import { Subscription, fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
+import { ShareStylesService } from '../services/share-styles.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,17 +19,21 @@ export class ToolbarComponent {
   scrollCheckInterval!: Subscription;
   lastScrollPosition: number = 0;
   scrollStopTimerId!: any;
-
+  HEX: { [key: string]: string } = {};
   constructor(
     public editorButtonService: EditorButtonsService,
     public modalService: NzModalService,
     public message: NzMessageService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    public sharedStyles: ShareStylesService
   ) {
     // // Subscribe to the service
     // this.scrollService.isScrolling$.subscribe((scrolling) => {
     //   this.isScrolling = scrolling;
     // });
+
+    this.HEX = this.sharedStyles.getAllHexParameters();
+    console.log(this.HEX);
   }
 
   // ngOnInit() {

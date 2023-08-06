@@ -12,6 +12,7 @@ import {
 import { CourseArticleConfig, ElementName } from './custom-styles.model';
 encapsulation: ViewEncapsulation.None;
 import { DOCUMENT } from '@angular/common';
+import { ShareStylesService } from './services/share-styles.service';
 @Directive({
   selector: '[appCustomStyles]',
 })
@@ -21,7 +22,8 @@ export class CustomStylesDirective implements OnChanges {
   constructor(
     private hostElement: ElementRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private sharedStyle: ShareStylesService
   ) {}
   ngOnInit(): void {
     // Getting the saved styles from localstorage
@@ -194,6 +196,38 @@ export class CustomStylesDirective implements OnChanges {
             }
           });
         }
+      }
+    }
+
+    // ! Passing This to an Shared Service.
+
+    if (config?.elements['mark']) {
+      const markStyles = config.elements['mark'];
+      const backgroundColor = markStyles.backgroundColor;
+      if (backgroundColor) {
+        // Check if backgroundColor is defined
+        console.log('markStyles', backgroundColor);
+        this.sharedStyle.saveHexParameter('mark', backgroundColor);
+      }
+    }
+
+    if (config?.elements['.mark1']) {
+      const markStyles = config.elements['.mark1'];
+      const backgroundColor = markStyles.backgroundColor;
+      if (backgroundColor) {
+        // Check if backgroundColor is defined
+        console.log('markStyles', backgroundColor);
+        this.sharedStyle.saveHexParameter('.mark1', backgroundColor);
+      }
+    }
+
+    if (config?.elements['.mark2']) {
+      const markStyles = config.elements['.mark2'];
+      const backgroundColor = markStyles.backgroundColor;
+      if (backgroundColor) {
+        // Check if backgroundColor is defined
+        console.log('markStyles', backgroundColor);
+        this.sharedStyle.saveHexParameter('.mark2', backgroundColor);
       }
     }
   }

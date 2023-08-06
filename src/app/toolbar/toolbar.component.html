@@ -11,12 +11,26 @@
 
     <app-editor-button (onClick)="editorButtonService.applyBlockquote(editor)"
       iconClass="fas fa-quote-left"></app-editor-button>
-    <app-editor-button (onClick)="editorButtonService.addMark(editor)"
-      iconClass="fas fa-highlighter"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.addCustoMark(editor)"
-      iconClass="fas fa-highlighter"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.addCustoMark2(editor)"
-      iconClass="fas fa-highlighter"></app-editor-button>
+
+      
+      <app-editor-button
+      (onClick)="editorButtonService.addMark(editor)"
+      iconClass="fas fa-highlighter"
+      [iconColor]="sharedStyles.getHexParameter('mark') || '#000'">
+    </app-editor-button>
+    <app-editor-button
+      (onClick)="editorButtonService.addCustoMark(editor)"
+      iconClass="fas fa-highlighter"
+      [iconColor]="sharedStyles.getHexParameter('.mark1') || '#000'">
+    </app-editor-button>
+    <app-editor-button
+      (onClick)="editorButtonService.addCustoMark2(editor)"
+      iconClass="fas fa-highlighter"
+      [iconColor]="sharedStyles.getHexParameter('.mark2') || '#000'">
+    </app-editor-button>
+    
+
+
     <app-editor-button (onClick)="editorButtonService.applyCodeBlock(editor)"
       iconClass="fas fa-code"></app-editor-button>
     <app-editor-button (onClick)="editorButtonService.applyImage(editor, modalService)"

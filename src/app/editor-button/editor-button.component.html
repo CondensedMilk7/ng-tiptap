@@ -4,7 +4,7 @@
       <img [src]="imagePath" alt="{{ label }}" />
     </ng-container>
     <ng-container *ngIf="iconClass && !imagePath">
-      <i [ngClass]="iconClass"></i>
+      <i [ngClass]="iconClass" [style.color]="iconColor"></i> <!-- Apply the color here -->
     </ng-container>
     {{ label }}
   </button>

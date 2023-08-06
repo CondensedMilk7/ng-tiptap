@@ -9,6 +9,7 @@ export class EditorButtonComponent {
   @Input() label!: string;
   @Input() iconClass?: string;
   @Input() imagePath?: string;
+  @Input() iconColor: string = '#000000';
   @Output() onClick = new EventEmitter<void>();
 
   clickHandler(): void {

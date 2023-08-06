@@ -18,7 +18,6 @@ export class OverlayButtonComponent {
   @Input() action!: string;
   @Input() iconClass?: string;
   @Output() onButtonClick = new EventEmitter<void>();
-
   buttonClicked(): void {
     this.onButtonClick.emit();
   }
