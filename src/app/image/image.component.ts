@@ -32,8 +32,24 @@ export class ImageComponent extends AngularNodeViewComponent {
 
   @Input() src!: string;
 
-  @HostListener('click') onHostClick() {
+  @HostListener('click', ['$event'])
+  onHostClick(event: Event) {
+    this.showButtons = true;
     this.selectNode();
+    event.stopPropagation();
+  }
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.showButtons = false; // Hide the buttons when the user clicks anywhere outside the image
+  }
+
+  ngOnInit() {
+    document.addEventListener('click', this.onDocumentClick.bind(this));
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('click', this.onDocumentClick.bind(this));
   }
   edit() {
     const src = this.node.attrs['src'];

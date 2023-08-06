@@ -1,12 +1,11 @@
-<div class="img-wrapper" (mouseover)="showButtons = true" (mouseout)="showButtons = false">
+<div class="img-wrapper" (click)="showButtons = true">
   <div class="img-container">
-    <img [src]="node.attrs['src']" [class]="'align-' + node.attrs['alignment']" />
+    <img [src]="node.attrs['src']" [ngClass]="'align-' + node.attrs['alignment']" />
   </div>
-  <div class="buttons" [style.visibility]="showButtons ? 'visible' : 'hidden'">
-    <button (click)="setAlignment('left')">Button 1</button>
-    <button (click)="setAlignment('center')">Button 2</button>
-    <button (click)="setAlignment('right')">Button 3</button>
-    <button *ngIf="isSelected()" (click)="edit()">Edit</button>
+  <div *ngIf="isSelected()" class="buttons" [style.visibility]="showButtons ? 'visible' : 'hidden'">
+    <button (click)="setAlignment('left')"><i class="icon-left"></i>Button 1</button>
+    <button (click)="setAlignment('center')"><i class="icon-center"></i>Button 2</button>
+    <button (click)="setAlignment('right')"><i class="icon-right"></i>Button 3</button>
+    <button class="edit-button" (click)="edit()"><i class="icon-edit"></i>Edit</button>
   </div>
-
 </div>
