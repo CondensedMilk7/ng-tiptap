@@ -23,6 +23,7 @@ export class ImageModalComponent {
   constructor(private modalRef: NzModalRef, private sanitizer: DomSanitizer) {
     const modalComponentParams = modalRef.getConfig().nzComponentParams;
     this.image = modalComponentParams?.['image'];
+    this.caption = modalComponentParams?.['caption']; // Ensure the caption is retrieved
   }
 
   submitForm(): void {

@@ -63,25 +63,31 @@ export class ImageComponent extends AngularNodeViewComponent {
         nzContent: ImageModalComponent,
         nzComponentParams: {
           image: actualSrc,
+          caption: this.node.attrs['caption'],
         },
       });
 
       modal.afterClose.subscribe((result) => {
         if (result) {
-          this.updateImageSrc(result);
+          this.updateImageSrc(result.croppedImage, result.caption);
         }
       });
     }
   }
 
-  updateImageSrc(newSrc: string) {
+  updateImageSrc(newSrc: string, newCaption: string) {
     const { state, view } = this.editor;
-    const nodePos = this.getPos();
+    const { selection } = state;
+    const nodePos = selection.$from.pos;
     const node = state.doc.nodeAt(nodePos);
 
-    if (node) {
-      const newNode = node.type.create({ ...node.attrs, src: newSrc }); // Update the src attribute
-      const tr = state.tr.setNodeMarkup(nodePos, undefined, newNode.attrs);
+    if (node && node.type.name === 'img') {
+      const tr = state.tr.setNodeMarkup(nodePos, undefined, {
+        ...node.attrs,
+        src: newSrc,
+        caption: newCaption,
+      });
+
       view.dispatch(tr);
     }
   }

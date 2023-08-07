@@ -58,13 +58,18 @@ export const ImageComponentExtension = (injector: Injector): Node => {
         src: node.attrs['src'],
         ...HTMLAttributes,
       });
-    
+
       return node.attrs['caption'] && node.attrs['caption'].trim() !== ''
-        ? ['figure', {}, ['img', attrs], ['figcaption', {}, node.attrs['caption']]]
-        : ['figure', {}, ['img', attrs]];
+        ? [
+            'figure',
+            {},
+            ['img', attrs],
+            ['figcaption', {}, node.attrs['caption']],
+          ]
+        : // Second
+          ['figure', {}, ['img', attrs]];
     },
-    
-    
+
     addNodeView() {
       return AngularNodeViewRenderer(ImageComponent, { injector });
     },

@@ -106,6 +106,7 @@ export class EditorButtonsService {
     const modal = modalService.create({
       nzContent: TableModalComponent, // Replace with your actual Angular component for the modal
       nzClosable: false,
+      nzFooter: null,
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });
 

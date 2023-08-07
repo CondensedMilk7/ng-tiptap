@@ -5,7 +5,7 @@
   <input type="range" id="preview-width" [ngModel]="previewWidth" 
   (mouseup)="updateCropperOnMouseUp($event)" min="100" max="600" class="slider" />
   <label for="caption">Caption:</label>
-  <input type="text" id="caption" [(ngModel)]="caption" />
+  <input [(ngModel)]="caption" type="text" placeholder="Enter caption" />
 
 
 
@@ -15,6 +15,7 @@
       (imageCropped)="imageCropped($event)" class="image-cropper">
     </image-cropper>
 
+    <button nz-button nzType="primary" (click)="submitForm()" class="submit-button">Submit</button>
 
   </div>
 </div>
