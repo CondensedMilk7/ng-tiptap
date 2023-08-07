@@ -22,20 +22,28 @@ export const ImageComponentExtension = (injector: Injector): Node => {
         alignment: {
           default: 'left',
         },
+        caption: {
+          // added caption attribute
+          default: '',
+        },
       };
     },
 
     parseHTML() {
       return [
         {
-          tag: 'img[src]',
+          tag: 'figure',
           getAttrs: (dom) => {
             if (dom instanceof HTMLElement) {
+              const imgElement = dom.querySelector('img');
+              const figcaptionElement = dom.querySelector('figcaption');
               const alignment =
-                dom.getAttribute('class')?.replace('align-', '') || 'center';
+                imgElement?.getAttribute('class')?.replace('align-', '') ||
+                'center';
               return {
-                src: dom.getAttribute('src'),
+                src: imgElement?.getAttribute('src'),
                 alignment,
+                caption: figcaptionElement?.innerText || null,
               };
             }
             return {};
@@ -45,16 +53,18 @@ export const ImageComponentExtension = (injector: Injector): Node => {
     },
 
     renderHTML({ node, HTMLAttributes }) {
-      return [
-        'img',
-        mergeAttributes({
-          class: `align-${node.attrs['alignment']}`,
-          src: node.attrs['src'],
-          ...HTMLAttributes,
-        }),
-      ];
+      const attrs = mergeAttributes({
+        class: `align-${node.attrs['alignment']}`,
+        src: node.attrs['src'],
+        ...HTMLAttributes,
+      });
+    
+      return node.attrs['caption'] && node.attrs['caption'].trim() !== ''
+        ? ['figure', {}, ['img', attrs], ['figcaption', {}, node.attrs['caption']]]
+        : ['figure', {}, ['img', attrs]];
     },
-
+    
+    
     addNodeView() {
       return AngularNodeViewRenderer(ImageComponent, { injector });
     },

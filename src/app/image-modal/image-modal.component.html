@@ -4,7 +4,8 @@
   <label for="preview-width">Preview Width: {{ previewWidth }}px</label>
   <input type="range" id="preview-width" [ngModel]="previewWidth" 
   (mouseup)="updateCropperOnMouseUp($event)" min="100" max="600" class="slider" />
-
+  <label for="caption">Caption:</label>
+  <input type="text" id="caption" [(ngModel)]="caption" />
 
 
 

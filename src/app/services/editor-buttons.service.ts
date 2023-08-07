@@ -26,27 +26,32 @@ export class EditorButtonsService {
 
   applyImage(editor: Editor, modalService: NzModalService): void {
     const modal = modalService.create({
-      nzContent: ImageModalComponent, // your image modal component here
+      nzContent: ImageModalComponent,
       nzClosable: false,
-      nzStyle: { },
+      nzStyle: {},
       nzOnOk: (componentInstance) => componentInstance.submitForm(),
     });
 
-    modal.afterClose.subscribe((base64) => {
-      console.log(base64); // Check this output
-      if (base64) {
-        console.log('Base64:', base64);
-        editor
-          .chain()
-          .focus()
-          .insertContent({
-            type: 'img',
-            attrs: {
-              src: base64,
-              alignment: 'left',
-            },
-          })
-          .run();
+    modal.afterClose.subscribe((result) => {
+      console.log(result); // Check this output
+      if (result) {
+        console.log('Base64:', result);
+        const attrs = {
+          src: result.croppedImage || null,
+          alignment: result.alignment || 'left',
+          caption: result.caption || '',
+        };
+
+        if (attrs.src) {
+          editor
+            .chain()
+            .focus()
+            .insertContent({
+              type: 'img',
+              attrs,
+            })
+            .run();
+        }
       }
     });
   }

@@ -1,15 +1,13 @@
 .img-wrapper {
   position: relative;
-  display: flex;
-  justify-content: center;
   width: 100%;
 }
 
 .img-container {
-  flex-grow: 1;
   display: flex;
-  justify-content: center; /* default alignment */
-  align-items: center; /* align vertically in the middle */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .img-container img {
@@ -17,19 +15,21 @@
   height: auto;
 }
 
-.img-container img.align-left {
-  margin-right: auto;
+.img-container .align-left {
+  align-self: flex-start;
+  text-align: left; /* for the caption */
 }
 
-.img-container img.align-center {
+.img-container .align-center {
   margin-left: auto;
   margin-right: auto;
+  text-align: center; /* for the caption */
 }
 
-.img-container img.align-right {
-  margin-left: auto;
+.img-container .align-right {
+  align-self: flex-end;
+  text-align: right; /* for the caption */
 }
-
 
 .img-wrapper .buttons {
   position: absolute;
@@ -38,13 +38,46 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0; /* Initially set opacity to 0 to hide the buttons */
-  transition: opacity 0.3s ease; /* Add a transition effect for smooth visibility */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.alignment-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 15%;
+  margin-bottom: 10px;
+}
+
+.alignment-buttons button {
+  background-color: #f1f1f1;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-button {
+  background-color: #f1f1f1;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .img-wrapper:hover .buttons {
-  opacity: 1; /* Show the buttons when hovering over the .img-wrapper */
+  opacity: 1;
 }

@@ -18,6 +18,7 @@ export class ImageModalComponent {
   croppedImage: any = '';
   showCropper = true; // Added this line
   @Input() image!: string; // Change the name of the input property to match
+  @Input() caption: string = '';
 
   constructor(private modalRef: NzModalRef, private sanitizer: DomSanitizer) {
     const modalComponentParams = modalRef.getConfig().nzComponentParams;
@@ -25,8 +26,10 @@ export class ImageModalComponent {
   }
 
   submitForm(): void {
-    console.log(this.croppedImage); // Check this output
-    this.modalRef.close(this.croppedImage);
+    this.modalRef.close({
+      croppedImage: this.croppedImage,
+      caption: this.caption,
+    });
   }
 
   fileChangeEvent(event: any): void {
