@@ -66,4 +66,46 @@ export class ToolbarComponent {
   //     clearTimeout(this.scrollStopTimerId);
   //   }
   // }
+  private lastUsedMark: string = 'mark'; // Default to the standard mark
+  private lastUsedMarkColor: string = '#000'; // Default color for last used mark
+
+  applyLastUsedMark() {
+    switch (this.lastUsedMark) {
+      case 'mark':
+        this.editorButtonService.addMark(this.editor);
+        break;
+      case 'mark1':
+        this.editorButtonService.addCustoMark(this.editor);
+        break;
+      case 'mark2':
+        this.editorButtonService.addCustoMark2(this.editor);
+        break;
+    }
+  }
+
+  applyMark() {
+    this.editorButtonService.addMark(this.editor);
+    this.lastUsedMark = 'mark';
+    this.lastUsedMarkColor =
+      this.sharedStyles.getHexParameter('mark') || '#000';
+  }
+
+  applyCustoMark() {
+    this.editorButtonService.addCustoMark(this.editor);
+    this.lastUsedMark = 'mark1';
+    this.lastUsedMarkColor =
+      this.sharedStyles.getHexParameter('.mark1') || '#000';
+  }
+
+  applyCustoMark2() {
+    this.editorButtonService.addCustoMark2(this.editor);
+    this.lastUsedMark = 'mark2';
+    this.lastUsedMarkColor =
+      this.sharedStyles.getHexParameter('.mark2') || '#000';
+  }
+
+  // Method to retrieve the last used mark color for binding
+  getLastUsedMarkColor() {
+    return this.lastUsedMarkColor;
+  }
 }

@@ -25,3 +25,118 @@
 .button-sub-group > * {
   margin-right: 5px;
 }
+
+.editor-toolbar {
+  display: flex;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+
+  /* Spacing between buttons */
+  .editor-btn + .editor-btn {
+    margin-left: 5px;
+  }
+}
+
+.button-group.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.button-group.column {
+  flex-direction: column;
+}
+
+.button-sub-group {
+  display: flex;
+  align-items: center;
+}
+
+.button-group-section {
+  display: flex;
+  align-items: center;
+}
+
+nz-divider {
+  margin: 0 10px; /* Adjusts the space around the dividers */
+}
+
+.nz-dropdown-menu {
+  background-color: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+ul[nz-menu] {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li[nz-menu-item] {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+li[nz-menu-item]:hover {
+  background-color: #f1f1f1;
+}
+
+.app-editor-button {
+  display: inline-block;
+  padding: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.app-editor-button:hover {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+}
+
+button[nz-button][nz-dropdown] {
+  background-color: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button[nz-button][nz-dropdown]:hover {
+  background-color: #f1f1f1;
+}
+
+i[nz-icon] {
+  margin-left: 5px;
+}
+
+.marker-dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em; /* space between icons */
+  font-size: 1.2em; /* adjust the size of the icons */
+}
+
+.marker-dropdown-button .fas.fa-highlighter {
+  color: #333; /* color of the marker icon */
+}
+
+.marker-dropdown-button .fas.fa-angle-down {
+  color: #555; /* color of the down arrow icon */
+}
+
