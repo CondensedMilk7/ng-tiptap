@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Heading from '@tiptap/extension-heading';
@@ -7,23 +13,44 @@ import Paragraph from '@tiptap/extension-paragraph';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
+import { HostListener } from '@angular/core';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { CourseArticleConfig } from './custom-styles.model';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CourseArticleConfig, IThemeStyles } from './custom-styles.model';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { lowlight } from 'lowlight/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import html from 'highlight.js/lib/languages/xml';
 import css from 'highlight.js/lib/languages/css';
-
+import { THEMES } from './custom-styles.model';
+import { textAlignIcons, textAlignOptions } from './data/text-align-options';
+import { borderStyleOptions } from './data/border-style.options';
+import {
+  fontSizes,
+  letterSpacingOptions,
+  lineHeightOptions,
+} from './data/text-options';
 lowlight.registerLanguage('javascript', javascript);
 lowlight.registerLanguage('html', html);
-lowlight.registerLanguage('css', css)
+lowlight.registerLanguage('css', css);
 
 import hljs from 'highlight.js';
-import {NzModalService} from "ng-zorro-antd/modal";
-import {LinkmodalComponent} from "./linkmodal/linkmodal.component";
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { LinkmodalComponent } from './linkmodal/linkmodal.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { fontStyleOptions } from './data/font-style-options';
+import { defaultFontFamilies, loadFont } from './data/font-family.options';
+import { EditorButtonsService } from './services/editor-buttons.service';
+import Youtube from '@tiptap/extension-youtube';
+import Highlight from '@tiptap/extension-highlight';
+import { ImageComponentExtension } from './custom-image';
+import { Gapcursor } from '@tiptap/extension-gapcursor';
+import History from '@tiptap/extension-history';
+import { ScrollService } from './services/scroll.service';
+import { HighlightColorExtension } from './extensions/custom-mark1';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -32,6 +59,19 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class AppComponent implements OnDestroy {
   // Imp: Define Editor Instance
   // Imp: Configuration Of Editor
+  isEditorEnabled = true;
+  toggleEditorMode(isEditorEnabled: boolean): void {
+    // store the current mode in local storage
+    localStorage.setItem('editorMode', isEditorEnabled ? 'editor' : 'static');
+
+    location.reload();
+  }
+
+  displayTableSettings = false;
+
+  themes = Object.keys(THEMES);
+  currentTheme!: string;
+
   editor = new Editor({
     extensions: [
       StarterKit,
@@ -53,69 +93,168 @@ export class AppComponent implements OnDestroy {
       Link.configure({
         openOnClick: true,
 
-          HTMLAttributes: {
-            target: '_blank',
-          }
+        HTMLAttributes: {
+          target: '_blank',
+        },
       }),
-
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableCell,
+      TableHeader,
+      Youtube.configure({}),
+      Gapcursor,
+      HighlightColorExtension.configure({}),
+      Highlight.configure({}),
+      ImageComponentExtension(this.injector),
     ],
     content:
       '<P>I think where I am not, therefore I am where I do not think.</P>',
   });
 
-  // Imp: Reference to the buttons
-  @ViewChild('h1Button') h1Button!: ElementRef;
-  @ViewChild('h2Button') h2Button!: ElementRef;
-  @ViewChild('h3Button') h3Button!: ElementRef;
-  @ViewChild('blockquoteButton') blockquoteButton!: ElementRef;
-  @ViewChild('codeButton') codeButton!: ElementRef;
-  @ViewChild('imageButton') imageButton!: ElementRef;
-  @ViewChild('LinkButton') LinkButton!: ElementRef;
+  ngAfterViewInit(): void {}
 
-  //Imp:  Define Buttons Logic Here
-  ngAfterViewInit(): void {
-    this.h1Button.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().toggleHeading({ level: 1 }).run();
-    });
+  @ViewChild('overlay', { static: false }) overlay!: ElementRef;
+  @ViewChild('tiptapEditor', { static: false }) tiptapEditor!: ElementRef;
+  private hideOverlayTimeout: any;
 
-    this.h2Button.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().toggleHeading({ level: 2 }).run();
-    });
+  editorContentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const tableWrappers = document.querySelectorAll('.tableWrapper');
 
-    this.h3Button.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().toggleHeading({ level: 3 }).run();
-    });
+    for (let i = 0; i < tableWrappers.length; i++) {
+      const tableWrapper = tableWrappers[i];
 
-    this.blockquoteButton.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().toggleBlockquote().run();
-    });
+      if (
+        target.nodeName === 'TABLE' ||
+        (tableWrapper && tableWrapper.contains(target))
+      ) {
+        const table =
+          target.nodeName === 'TABLE' ? target : target.closest('table');
+        const rect = table?.getBoundingClientRect();
+        const overlay = this.overlay.nativeElement;
 
-    this.codeButton.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().toggleCodeBlock().run();
-    });
+        const tableLeft = rect!.left + window.pageXOffset;
+        const tableTop = rect!.top + window.pageYOffset - 50; // Subtract 50 pixels to move the overlay up
 
-    this.imageButton.nativeElement.addEventListener('click', () => {
-      this.editor.chain().focus().setImage({src: 'https://picsum.photos/200/300'}).run();
-    });
+        overlay.style.left = `${tableLeft}px`;
+        overlay.style.top = `${tableTop}px`;
 
-    this.LinkButton.nativeElement.addEventListener('click', () => {
-      const modal = this.modalService.create({
-        nzContent: LinkmodalComponent,
-        nzClosable: false,
-        nzOnOk: (componentInstance) => componentInstance.submit(),
-      });
-
-      modal.afterClose.subscribe(url => {
-        if (url) {
-          if (url.startsWith('http://') || url.startsWith('https://')) {
-            this.editor.chain().focus().toggleLink({ href: url }).run();
-          } else {
-            this.message.create('error', `Invalid URL: ${url}. Please include the protocol (http:// or https://)`);
-          }
+        if (overlay.style.display != 'block') {
+          overlay.style.display = 'block';
         }
-      });
-    });
+      }
+    }
+  }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    // If the clicked element is not the overlay or within the overlay, and not a table, hide the overlay
+    if (
+      !this.overlay.nativeElement.contains(target) &&
+      target.nodeName !== 'TABLE' &&
+      !target.closest('table')
+    ) {
+      this.overlay.nativeElement.style.display = 'none';
+    }
+  }
+
+  switchTheme(theme: string) {
+    this.currentTheme = theme;
+    const themeStyles = this.createThemeStyles(THEMES[theme]);
+
+    this.customStyles.patchValue(themeStyles);
+    this.customStyles$.next(themeStyles);
+
+    localStorage.setItem('custom_styles', JSON.stringify(themeStyles));
+  }
+
+  createThemeStyles(theme: IThemeStyles): CourseArticleConfig {
+    return {
+      fontFamilies: ['Arial', 'Helvetica', 'serif'],
+      globalFontFamily: 'Arial',
+      elements: {
+        h1: {
+          color: theme.color,
+          fontFamily: 'Helvetica',
+          fontSize: '2rem',
+          textAlign: 'left',
+          fontStyle: 'normal',
+        },
+        h2: {
+          color: theme.color,
+          fontFamily: 'Helvetica',
+          fontSize: '1.8rem',
+          textAlign: 'left',
+          fontStyle: 'normal',
+        },
+        h3: {
+          color: theme.color,
+          fontFamily: 'Helvetica',
+          fontSize: '1.6rem',
+          textAlign: 'left',
+          fontStyle: 'italic',
+        },
+        p: {
+          color: theme.color,
+          fontFamily: 'Helvetica',
+          fontSize: '16px',
+          textAlign: 'left',
+          fontStyle: 'normal',
+          letterSpacing: '1px',
+        },
+        blockquote: {
+          color: theme.blockquoteColor,
+          fontFamily: 'serif',
+          fontSize: '1.2rem',
+          fontStyle: 'normal',
+          maxWidth: '250px',
+          padding: '10px',
+          margin: '0px',
+          backgroundColor: theme.backgroundColor,
+          textAlign: 'left',
+          borderRadius: '0px',
+          border: {
+            color: theme.borderColor,
+            style: 'solid',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '10px',
+          },
+        },
+        a: {
+          color: theme.aColor,
+          fontFamily: 'serif',
+          fontSize: '1.2rem',
+          fontStyle: 'normal',
+        },
+        '.ProseMirror': {
+          backgroundColor: theme.backgroundColor,
+        },
+        mark: {
+          backgroundColor: theme.backgroundColor,
+        },
+        img: {
+          maxWidth: '100%',
+          padding: '10px',
+          margin: '0px',
+          borderRadius: '50%',
+          border: {
+            color: theme.borderColor,
+            style: 'dotted',
+            width: '5px',
+            top: '5px',
+            right: '5px',
+            bottom: '5px',
+            left: '5px',
+          },
+        },
+      },
+    };
   }
 
   // Unsorted Code
@@ -128,9 +267,6 @@ export class AppComponent implements OnDestroy {
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
   quillInstance: any;
-  selectedColor: string = 'yellow'; // Default color
-
-  // Todo: Update This Everytem Custom Style Is Updated
 
   quillModules = {};
 
@@ -154,68 +290,40 @@ export class AppComponent implements OnDestroy {
   };
 
   // *  Drop Down Options
-
-  // ? Text Align Options
-  textAlignOptions = [
-    { label: 'Left', value: 'left' },
-    { label: 'Center', value: 'center' },
-    { label: 'Right', value: 'right' },
-    { label: 'Justify', value: 'justify' },
-  ];
-
-  // ? Font Style Options
-  fontStyleOptions = [
-    { label: 'Normal', value: 'normal' },
-    { label: 'Italic', value: 'italic' },
-    { label: 'Oblique', value: 'oblique' },
-    // ? Add Bold
-  ];
-  // ? Return Icon Class
-  getIconClass(value: string) {
-    switch (value) {
-      case 'left':
-        return 'bi bi-text-left';
-      case 'center':
-        return 'bi bi-text-center';
-      case 'right':
-        return 'bi bi-text-right';
-      case 'justify':
-        return 'bi bi-justify';
-      default:
-        return '';
-    }
+  textAlignOptions = textAlignOptions;
+  borderStyleOptions = borderStyleOptions;
+  fontStyleOptions = fontStyleOptions;
+  getIconClass(value: string): string {
+    return textAlignIcons[value] || '';
   }
-  //? Fonf Family Options
-  defaultFontFamilies: string[] = [
-    'Arial',
-    'Helvetica',
-    'Times New Roman',
-    'Courier New',
-    'Lucida Console',
-  ];
-  addedFontFamilies: string[] = [];
+
+  defaultFontFamilies = defaultFontFamilies;
 
   // ? FontSize Options
-  sizes: number[] = [
-    8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60,
-    72,
-  ];
+  sizes = fontSizes;
+  lineHeightOptions = lineHeightOptions;
+  letterSpacingOptions = letterSpacingOptions;
+  isScrolling$: Observable<boolean>;
 
-  //? Spacing && Line Height Options
-  lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
-  letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
-  constructor(private fb: NonNullableFormBuilder,
-              private modalService: NzModalService,
-              public message: NzMessageService) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    public modalService: NzModalService,
+    public message: NzMessageService,
+    public editorButtonService: EditorButtonsService,
+    private injector: Injector,
+    private scrollService: ScrollService
+  ) {
+    this.isScrolling$ = this.scrollService.isScrolling$;
+  }
   // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
     globalFontFamily: 'Helvetica',
     elements: this.fb.group({
       h1: this.fb.group({
-        color: 'red',
+        color: 'black',
         fontFamily: 'Helvetica',
-        fontSize: '2rem',
+        fontSize: '2em',
         textAlign: 'left',
         fontStyle: 'normal',
       }),
@@ -224,22 +332,22 @@ export class AppComponent implements OnDestroy {
         color: 'black',
         fontFamily: 'Helvetica',
         textAlign: 'left',
-        fontSize: '1.8rem',
+        fontSize: '1.5em',
         fontStyle: 'normal',
       }),
 
       h3: this.fb.group({
         color: 'black',
         fontFamily: 'Helvetica',
-        fontSize: '1.6rem',
+        fontSize: '1.17em',
         textAlign: 'left',
         fontStyle: 'normal',
       }),
 
       p: this.fb.group({
-        color: 'red',
+        color: 'black',
         fontFamily: 'Helvetica',
-        fontSize: '4rem',
+        fontSize: '16px',
         textAlign: 'left',
         fontStyle: 'normal',
         letterSpacing: '0',
@@ -257,7 +365,7 @@ export class AppComponent implements OnDestroy {
         // ? Added here
         borderRadius: '0px',
         border: this.fb.group({
-          color: 'orange',
+          color: '#FFA500',
           style: 'solid',
           // ! As I Know There is No Border Support Here
           radius: '0px',
@@ -269,16 +377,38 @@ export class AppComponent implements OnDestroy {
       }),
 
       a: this.fb.group({
-        color: 'blue',
+        color: '#5200ff',
         fontFamily: 'serif',
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
-      // '.test_box': this.fb.group({
-      //   backgroundColor: 'black',
-      // }),
-      markColor: this.fb.group({
-        backgroundColor: ['yellow'],
+      '.ProseMirror': this.fb.group({
+        backgroundColor: '#fff',
+      }),
+      '.mark1': this.fb.group({
+        backgroundColor: '#ff0000',
+      }),
+      '.mark2': this.fb.group({
+        backgroundColor: '#800080',
+      }),
+      mark: this.fb.group({
+        backgroundColor: '#ffff00',
+      }),
+      img: this.fb.group({
+        maxWidth: '100%',
+        padding: '10px',
+        margin: '0px',
+        borderRadius: '0px',
+        border: this.fb.group({
+          color: '#ff0000',
+          style: 'solid',
+          radius: '0px', // change this to borderRadius
+          width: '25px',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        }),
       }),
     }),
   });
@@ -288,7 +418,6 @@ export class AppComponent implements OnDestroy {
   );
 
   ngOnInit() {
-    // load saved custom styles from local storage if it exists, or use initial value otherwise
     const savedCustomStyles = localStorage.getItem('custom_styles');
     if (savedCustomStyles) {
       this.customStyles.setValue(JSON.parse(savedCustomStyles));
@@ -297,7 +426,6 @@ export class AppComponent implements OnDestroy {
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
 
-      // save custom styles to local storage when it changes
       localStorage.setItem(
         'custom_styles',
         JSON.stringify(this.customStyles.getRawValue())
@@ -306,8 +434,12 @@ export class AppComponent implements OnDestroy {
       this.quillStyle = this.customStyles.getRawValue();
     });
 
-    // Get The Value From Local Storage
     this.quillContent$ = of(localStorage.getItem('editor_content'));
+
+    this.defaultFontFamilies.forEach(loadFont);
+
+    const storedMode = localStorage.getItem('editorMode');
+    this.isEditorEnabled = storedMode === 'editor';
   }
 
   onContentUpdated(newContent: string) {

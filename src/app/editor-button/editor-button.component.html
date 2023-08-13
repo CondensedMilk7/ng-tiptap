@@ -1,0 +1,11 @@
+<div class="">
+  <button nz-button (click)="clickHandler()" class="editor-btn">
+    <ng-container *ngIf="imagePath">
+      <img [src]="imagePath" alt="{{ label }}" />
+    </ng-container>
+    <ng-container *ngIf="iconClass && !imagePath">
+      <i [ngClass]="iconClass" [style.color]="iconColor"></i> <!-- Apply the color here -->
+    </ng-container>
+    {{ label }}
+  </button>
+</div>

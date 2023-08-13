@@ -1,0 +1,4 @@
+<form (ngSubmit)="submitForm()" #tableForm="ngForm">
+  <input type="number" placeholder="Rows" [(ngModel)]="rows" name="rows" min="1" required>
+  <input type="number" placeholder="Columns" [(ngModel)]="cols" name="cols" min="1" required>
+</form>

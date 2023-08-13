@@ -1,0 +1,14 @@
+<figure class="img-wrapper" (click)="showButtons = true">
+  <div class="img-container">
+    <img [src]="node.attrs['src']" [ngClass]="'align-' + node.attrs['alignment']" />
+    <figcaption  *ngIf="node.attrs['caption']" [ngClass]="'align-' + node.attrs['alignment']" >{{node.attrs['caption']}}</figcaption>
+  </div>
+  <div *ngIf="isSelected()" class="buttons" [style.visibility]="showButtons ? 'visible' : 'hidden'">
+    <div class="alignment-buttons">
+      <button (click)="setAlignment('left')"><i class="fas fa-align-left"></i></button>
+      <button (click)="setAlignment('center')"><i class="fas fa-align-center"></i></button>
+      <button (click)="setAlignment('right')"><i class="fas fa-align-right"></i></button>
+    </div>
+    <button class="edit-button" (click)="edit()"><i class="fas fa-edit"></i>Edit</button>
+  </div>
+</figure>

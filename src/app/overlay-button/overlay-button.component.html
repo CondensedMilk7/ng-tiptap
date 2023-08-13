@@ -1,0 +1,9 @@
+<button class="overlay-btn" (click)="buttonClicked()">
+  <ng-container *ngIf="iconClass; else nzIcon">
+    <i [ngClass]="iconClass"></i>
+  </ng-container>
+
+  <ng-template #nzIcon>
+    <span nz-icon [nzType]="iconType" ></span>
+  </ng-template>
+</button>

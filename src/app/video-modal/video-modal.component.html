@@ -1,0 +1,4 @@
+<form (ngSubmit)="submitForm()" #videoForm="ngForm">
+  <input type="url" placeholder="YouTube Video URL" [(ngModel)]="src" name="src" required>
+  <button type="submit">Submit</button>
+</form>

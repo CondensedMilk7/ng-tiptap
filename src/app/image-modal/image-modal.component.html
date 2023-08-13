@@ -1,0 +1,24 @@
+<div class="container">
+  <input type="file" (change)="fileChangeEvent($event)" class="file-input" />
+
+  <label for="preview-width">Preview Width: {{ previewWidth }}px</label>
+  <input type="range" id="preview-width" [ngModel]="previewWidth" 
+  (mouseup)="updateCropperOnMouseUp($event)" min="100" max="600" class="slider" />
+  <label for="caption">Caption:</label>
+  <input [(ngModel)]="caption" type="text" placeholder="Enter caption" />
+
+
+
+  <div class="wrap">
+    <image-cropper [style.width.px]="previewWidth" *ngIf="showCropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+      [aspectRatio]="aspectRatio" format="png" [resizeToWidth]="resizeSettings.width"
+      (imageCropped)="imageCropped($event)" class="image-cropper">
+    </image-cropper>
+  </div>
+
+  <div class="img_wrapper">
+
+    <button nz-button nzType="primary" (click)="submitForm()" class="submit-button">Submit</button>
+
+  </div>
+</div>
