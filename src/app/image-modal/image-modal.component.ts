@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SecurityContext } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-image-modal',
@@ -20,7 +21,11 @@ export class ImageModalComponent {
   @Input() image!: string; // Change the name of the input property to match
   @Input() caption: string = '';
 
-  constructor(private modalRef: NzModalRef, private sanitizer: DomSanitizer) {
+  constructor(
+    private modalRef: NzModalRef,
+    private sanitizer: DomSanitizer,
+    private message: NzMessageService
+  ) {
     const modalComponentParams = modalRef.getConfig().nzComponentParams;
     this.image = modalComponentParams?.['image'];
     this.caption = modalComponentParams?.['caption']; // Ensure the caption is retrieved
@@ -32,10 +37,31 @@ export class ImageModalComponent {
       caption: this.caption,
     });
   }
+  checkImageType(blob: Blob): boolean {
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg']; // You can add or remove types as needed
+    if (!validImageTypes.includes(blob.type)) {
+      this.message.create(
+        'error',
+        `Incorrect image type. Supported types are: ${validImageTypes.join(
+          ', '
+        )}`
+      );
+      return false; // Invalid image type
+    }
+    return true; // Valid image type
+  }
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file) {
+      const isValidImageType = this.checkImageType(file);
+      if (!isValidImageType) {
+        return; // Return early if the image type is not valid
+      }
+      this.imageChangedEvent = event; // Proceed with setting imageChangedEvent if the image type is valid
+    }
   }
+
   imageCropped(event: ImageCroppedEvent) {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
@@ -44,6 +70,8 @@ export class ImageModalComponent {
       );
     };
     if (event.blob) {
+      this.checkImageType(event.blob);
+
       fileReader.readAsDataURL(event.blob);
     }
   }
