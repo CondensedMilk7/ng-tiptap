@@ -209,9 +209,4 @@ export class EditorButtonsService {
   testing() {
     console.log('testing');
   }
-
-
-  addCustomParagraph1(editor: Editor) {
-    editor.commands.setParagraph()
-  }
 }
