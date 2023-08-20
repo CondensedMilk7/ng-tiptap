@@ -51,7 +51,6 @@ import { Gapcursor } from '@tiptap/extension-gapcursor';
 import History from '@tiptap/extension-history';
 import { ScrollService } from './services/scroll.service';
 import { HighlightColorExtension } from './extensions/custom-mark1';
-import { CustomBlockquote } from './extensions/custom-p';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -77,7 +76,7 @@ export class AppComponent implements OnDestroy {
     extensions: [
       StarterKit,
       Heading.configure({
-        levels: [1, 2, 3],
+        levels: [1, 2, 3, 4],
       }),
       Paragraph.configure({}),
       Blockquote.configure({}),
@@ -104,7 +103,6 @@ export class AppComponent implements OnDestroy {
       TableRow,
       TableCell,
       TableHeader,
-      CustomBlockquote,
       Youtube.configure({}),
       Gapcursor,
       HighlightColorExtension.configure({}),

@@ -209,4 +209,5 @@ export class EditorButtonsService {
   testing() {
     console.log('testing');
   }
+
 }
