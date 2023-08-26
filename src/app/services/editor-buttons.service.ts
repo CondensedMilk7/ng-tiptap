@@ -6,12 +6,11 @@ import { LinkmodalComponent } from '../linkmodal/linkmodal.component';
 import { TableModalComponent } from '../table-modal/table-modal.component';
 import { VideoModalComponent } from '../video-modal/video-modal.component';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+
 @Injectable({
   providedIn: 'root',
 })
 export class EditorButtonsService {
-  editor!: Editor;
-
   applyHeading(editor: Editor, level: 1 | 2 | 3 | 4 | 5 | 6): void {
     editor.chain().focus().toggleHeading({ level }).run();
   }
@@ -210,4 +209,5 @@ export class EditorButtonsService {
   testing() {
     console.log('testing');
   }
+
 }

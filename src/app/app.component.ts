@@ -76,7 +76,7 @@ export class AppComponent implements OnDestroy {
     extensions: [
       StarterKit,
       Heading.configure({
-        levels: [1, 2, 3],
+        levels: [1, 2, 3, 4],
       }),
       Paragraph.configure({}),
       Blockquote.configure({}),

@@ -2,27 +2,32 @@
   <div class="button-sub-group">
     <div class="button-group-section">
       <!-- Headings -->
-      <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 1)"
+      <app-editor-button [nz-tooltip]="'Heading 1'" (onClick)="editorButtonService.applyHeading(editor, 1)"
         imagePath="../assets/icons8-h1-30 (1).png"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 2)"
+      <app-editor-button [nz-tooltip]="'Heading 2'" (onClick)="editorButtonService.applyHeading(editor, 2)"
         imagePath="../assets/icons8-h2-30.png"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyHeading(editor, 3)"
+      <app-editor-button [nz-tooltip]="'Heading 3'" (onClick)="editorButtonService.applyHeading(editor, 3)"
         imagePath="../assets/icons8-h3-30.png"></app-editor-button>
+
+
+      <app-editor-button [nz-tooltip]="'Second Paragraph'" (onClick)="editorButtonService.applyHeading(editor, 4)"
+        imagePath="../assets/icons8-h3-30.png"></app-editor-button>
+
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div class="button-group-section">
-      <app-editor-button (onClick)="editorButtonService.applyBlockquote(editor)"
+      <app-editor-button [nz-tooltip]="'Blockquote'" (onClick)="editorButtonService.applyBlockquote(editor)"
         iconClass="fas fa-quote-left"></app-editor-button>
 
       <!-- Last Used Marker Button -->
-      <app-editor-button (onClick)="applyLastUsedMark()" iconClass="fas fa-highlighter"
+      <app-editor-button [nz-tooltip]="'Mark'" (onClick)="applyLastUsedMark()" iconClass="fas fa-highlighter"
         [iconColor]="getLastUsedMarkColor()">
       </app-editor-button>
 
       <div class="button-group-section">
         <div nz-dropdown [nzDropdownMenu]="markMenu" class="button-group-section">
           <!-- Dropdown Button -->
-          <button nz-button nz-dropdown class="marker-dropdown-button">
+          <button [nz-tooltip]="'Choose Mark Color'" nz-button nz-dropdown class="marker-dropdown-button">
             <i class="fas fa-highlighter"></i> <!-- Marker icon -->
             <i class="fas fa-angle-down"></i> <!-- Down arrow icon -->
           </button>
@@ -53,28 +58,32 @@
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div class="button-group-section">
-      <app-editor-button (onClick)="editorButtonService.applyCodeBlock(editor)"
+      <app-editor-button [nz-tooltip]="'Code'" (onClick)="editorButtonService.applyCodeBlock(editor)"
         iconClass="fas fa-code"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyImage(editor, modalService)"
+      <app-editor-button [nz-tooltip]="'Image'" (onClick)="editorButtonService.applyImage(editor, modalService)"
         iconClass="fas fa-image"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyLink(editor, modalService, message)"
+      <app-editor-button [nz-tooltip]="'Link'" (onClick)="editorButtonService.applyLink(editor, modalService, message)"
         iconClass="fas fa-link"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyBold(editor)" iconClass="fas fa-bold"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyItalic(editor)"
+      <app-editor-button [nz-tooltip]="'Bold'" (onClick)="editorButtonService.applyBold(editor)"
+        iconClass="fas fa-bold"></app-editor-button>
+      <app-editor-button [nz-tooltip]="'Italic'" (onClick)="editorButtonService.applyItalic(editor)"
         iconClass="fas fa-italic"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyBulletList(editor)"
+      <app-editor-button [nz-tooltip]="'Bullet List'" (onClick)="editorButtonService.applyBulletList(editor)"
         iconClass="fas fa-list-ul"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyOrderedList(editor)"
+      <app-editor-button [nz-tooltip]="'Ordered List'" (onClick)="editorButtonService.applyOrderedList(editor)"
         iconClass="fas fa-list-ol"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.addVideo(editor, modalService)"
+      <app-editor-button [nz-tooltip]="'Video'" (onClick)="editorButtonService.addVideo(editor, modalService)"
         iconClass="fas fa-video"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.applyTable(editor, modalService, message)"
+      <app-editor-button [nz-tooltip]="'Table'"
+        (onClick)="editorButtonService.applyTable(editor, modalService, message)"
         iconClass="fas fa-table"></app-editor-button>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div class="button-group-section">
-      <app-editor-button (onClick)="editorButtonService.goBack(editor)" iconClass="fa fa-undo"></app-editor-button>
-      <app-editor-button (onClick)="editorButtonService.goForward(editor)" iconClass="fa fa-redo"></app-editor-button>
+      <app-editor-button [nz-tooltip]="'Go Back'" (onClick)="editorButtonService.goBack(editor)"
+        iconClass="fa fa-undo"></app-editor-button>
+      <app-editor-button [nz-tooltip]="'Go Forward'" (onClick)="editorButtonService.goForward(editor)"
+        iconClass="fa fa-redo"></app-editor-button>
     </div>
   </div>
 </div>
